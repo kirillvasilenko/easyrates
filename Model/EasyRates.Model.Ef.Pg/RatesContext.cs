@@ -1,24 +1,24 @@
-﻿using EfCore.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace EasyRates.Model.Ef
+namespace EasyRates.Model.Ef.Pg
 {
-    public class RatesContext : BaseDbContext
+    public class RatesContext : DbContext
     {
-        public RatesContext(RatesDbParams dbParams, ILoggerFactory loggerFactory = null) 
-            : base(dbParams.ConnectionString, dbParams.DbType, loggerFactory)
-        {
-        }
-        
         public DbSet<CurrencyRate> ActualRates { get; set; }
         
         public DbSet<CurrencyRateHistoryItem> RatesHistory { get; set; }
         
+        public RatesContext(DbContextOptions<RatesContext> options)
+            : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            
+            builder.RemovePluralizingTableNameConvention();
 
             builder.Entity<CurrencyRate>()
                 .Ignore(r => r.Key)

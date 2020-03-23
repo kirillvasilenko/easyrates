@@ -1,8 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Model\EasyRates.Model.Ef.Pg\EasyRates.Model.Ef.Pg.csproj" />
+      <ProjectReference Include="..\EasyRates.Reader\EasyRates.Reader.csproj" />
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Autofac">

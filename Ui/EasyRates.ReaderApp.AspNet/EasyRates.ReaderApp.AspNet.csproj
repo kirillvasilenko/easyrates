@@ -23,8 +23,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\App\EasyRates.ReaderApp\EasyRates.ReaderApp.csproj" />
-      <ProjectReference Include="..\..\Domain\EasyRates.Model.Ef\EasyRates.Model.Ef.csproj" />
       <ProjectReference Include="..\..\Domain\EasyRates.Reader.Ef\EasyRates.Reader.Ef.csproj" />
+      <ProjectReference Include="..\..\Model\EasyRates.Model.Ef.Pg\EasyRates.Model.Ef.Pg.csproj" />
       <ProjectReference Include="..\..\Utils\AppRunner\AppRunner.csproj" />
       <ProjectReference Include="..\..\Utils\AppVersion\AppVersion.csproj" />
       <ProjectReference Include="..\..\Utils\AspNetCore.Common\AspNetCore.Common.csproj" />
