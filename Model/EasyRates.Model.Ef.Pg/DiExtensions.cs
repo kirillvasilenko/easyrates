@@ -5,9 +5,10 @@ namespace EasyRates.Model.Ef.Pg
 {
     public static class DiExtensions
     {
-        public static IServiceCollection AddSocialNetworkRepoMySql(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddEasyRatesModelEfPg(this IServiceCollection services, string connectionString)
         {
             return services
+                .AddEasyRatesModel()
                 .AddDbContext<RatesContext>(options =>
                     options
                         .UseNpgsql(connectionString)

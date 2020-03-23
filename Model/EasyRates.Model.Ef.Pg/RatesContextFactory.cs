@@ -15,7 +15,7 @@ namespace EasyRates.Model.Ef.Pg
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var connectionString = config["ConnectionString"];
+            var connectionString = config.GetConnectionString("DefaultConnection");
             
             return CreateDbContext(connectionString);
         }
