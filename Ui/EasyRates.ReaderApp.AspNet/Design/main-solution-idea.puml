@@ -1,0 +1,11 @@
+@startuml
+
+[ReaderApp]
+[WriterApp]
+database Database
+
+ReaderApp --> Database: read
+WriterApp --> Database: read/write
+
+
+@enduml

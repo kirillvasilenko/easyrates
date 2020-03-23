@@ -1,0 +1,22 @@
+@startuml
+
+@startuml
+
+package "Reader cluster"{
+    [ReaderApp1]
+    [ReaderApp2]
+    [ReaderAppN]
+}
+
+[WriterApp]
+database Database
+
+ReaderApp1 --> Database: read
+ReaderApp2 --> Database: read
+ReaderAppN --> Database: read
+WriterApp --> Database: read/write
+
+
+@enduml
+
+@enduml

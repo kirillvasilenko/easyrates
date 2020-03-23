@@ -1,0 +1,10 @@
+@startuml
+
+hide circle
+hide methods
+
+class ActualCurrencyRate
+
+class CurrencyRateHistory
+
+@enduml

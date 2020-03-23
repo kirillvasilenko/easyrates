@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Utils\Time\Time.csproj" />
+      <ProjectReference Include="..\EasyRates.Writer\EasyRates.Writer.csproj" />
+    </ItemGroup>
+
+</Project>

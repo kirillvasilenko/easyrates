@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Utils\Time\Time.csproj" />
+      <ProjectReference Include="..\EasyRates.Model.Ef\EasyRates.Model.Ef.csproj" />
+      <ProjectReference Include="..\EasyRates.Writer\EasyRates.Writer.csproj" />
+    </ItemGroup>
+
+</Project>
