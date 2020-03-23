@@ -4,27 +4,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyRates.Model;
 using EasyRates.Writer;
+using Microsoft.Extensions.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace EasyRates.RatesProvider.OpenExchange
 {
-    public class OpenExchangeRatesProviderForPoor:IRatesProvider
+    public class OpenExchangeRatesProvider:IRatesProvider
     {
         private readonly IOpenExchangeProxy proxy;
-        private readonly ILogger<OpenExchangeRatesProviderForPoor> logger;
+        private readonly ISystemClock clock;
+        private readonly ILogger<OpenExchangeRatesProvider> logger;
 
-        private string[] currencies;
+        private readonly string[] currencies;
         
-        public OpenExchangeRatesProviderForPoor(
+        public OpenExchangeRatesProvider(
             IOpenExchangeProxy proxy,
-            IOpenExchangeRateProviderSettings settings,
-            ILogger<OpenExchangeRatesProviderForPoor> logger)
+            ISystemClock clock,
+            IOptions<OpenExchangeProviderOptions> opts,
+            ILogger<OpenExchangeRatesProvider> logger)
         {
             this.proxy = proxy;
+            this.clock = clock;
             this.logger = logger;
-            Priority = settings.Priority;
-            Name = settings.Name;
-            currencies = settings.Currencies;
+            Priority = opts.Value.Priority;
+            Name = opts.Value.Name;
+            currencies = opts.Value.Currencies;
         }
         
         public int Priority { get; }
@@ -39,7 +44,7 @@ namespace EasyRates.RatesProvider.OpenExchange
                 .ToList();
 
             // await and get responses, log if error
-            var responses = new List<LatestRateResponse>();
+            var responses = new List<ActualRateResponse>();
             foreach (var task in tasks)
             {
                 try
@@ -53,7 +58,7 @@ namespace EasyRates.RatesProvider.OpenExchange
             }
 
             return responses
-                .Select(r => r.ToDomain(Name))
+                .Select(r => r.ToDomain(Name, clock.UtcNow.UtcDateTime))
                 .SelectMany(x => x)
                 .ToArray();
         }

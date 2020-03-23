@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using EasyRates.Model;
-using EasyRates.Model.Ef;
+using EasyRates.Model.Ef.Pg;
 using Microsoft.EntityFrameworkCore;
-using Time;
 
 namespace EasyRates.Writer.Ef
 {
     public class RatesWriterEf:IRatesWriter
     {
         private readonly RatesContext context;
-        
-        public RatesWriterEf(RatesContext context)
+        private readonly IMapper mapper;
+
+        public RatesWriterEf(RatesContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
         
         public async Task SetActualRates(ICollection<CurrencyRate> rates)
@@ -33,14 +34,14 @@ namespace EasyRates.Writer.Ef
                 }
                 else
                 {
-                    actualRate.Update(newRate);
+                    actualRate.Update(newRate, mapper);
                 }
             }
         }
 
         public Task AddRatesToHistory(ICollection<CurrencyRate> rates)
         {
-            context.RatesHistory.AddRange(rates.Select(r => r.ToHistoryItem()));
+            context.RatesHistory.AddRange(rates.Select(r => r.ToHistoryItem(mapper)));
 
             return Task.CompletedTask;
         }

@@ -7,7 +7,6 @@ namespace EasyRates.RatesProvider.OpenExchange
 {
     public class OpenExchangeProxy:IOpenExchangeProxy
     {
-        private readonly string appId;
         private const string BaseUrl = "https://openexchangerates.org/api";
 
         private const string Latest = "latest.json";
@@ -16,13 +15,14 @@ namespace EasyRates.RatesProvider.OpenExchange
 
         private const string BaseParam = "base";
         
+        private readonly string appId;
         
         public OpenExchangeProxy(string appId)
         {
             this.appId = appId;
         }
         
-        public async Task<LatestRateResponse> GetCurrentRates(string from)
+        public async Task<ActualRateResponse> GetCurrentRates(string from)
         {
             var url = $"{BaseUrl}/{Latest}";
             
@@ -33,10 +33,10 @@ namespace EasyRates.RatesProvider.OpenExchange
             request.AddQueryParameter(AppIdParam, appId);
             request.AddQueryParameter(BaseParam, from);
 
-            var response = await client.ExecuteGetTaskAsync(request);
+            var response = await client.ExecuteGetAsync(request);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<LatestRateResponse>(response.Content);
+                return JsonConvert.DeserializeObject<ActualRateResponse>(response.Content);
             }
             
             var err = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);

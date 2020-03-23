@@ -1,6 +1,6 @@
 namespace EasyRates.RatesProvider.OpenExchange
 {
-    public class OpenExchangeRateProviderSettings : IOpenExchangeRateProviderSettings
+    public class OpenExchangeProviderOptions
     {
         public int Priority { get; set; }
         

@@ -4,6 +4,6 @@ namespace EasyRates.RatesProvider.OpenExchange
 {
     public interface IOpenExchangeProxy
     {
-        Task<LatestRateResponse> GetCurrentRates(string from);
+        Task<ActualRateResponse> GetCurrentRates(string from);
     }
 }

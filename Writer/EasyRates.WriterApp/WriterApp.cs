@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Internal;
 using Microsoft.Extensions.Logging;
-using Time;
 
 namespace EasyRates.WriterApp
 {
@@ -12,6 +11,7 @@ namespace EasyRates.WriterApp
     {
         private readonly IRatesUpdater ratesUpdater;
         private readonly ITimetable timetable;
+        private readonly ISystemClock clock;
         private readonly ILogger<WriterApp> logger;
 
         
@@ -27,10 +27,12 @@ namespace EasyRates.WriterApp
         public WriterApp(
             IRatesUpdater ratesUpdater,
             ITimetable timetable,
+            ISystemClock clock,
             ILogger<WriterApp> logger)
         {
             this.ratesUpdater = ratesUpdater;
             this.timetable = timetable;
+            this.clock = clock;
             this.logger = logger;
         }
         
@@ -65,7 +67,7 @@ namespace EasyRates.WriterApp
         private async Task WorkCycle()
         {
             var watch = new Stopwatch();
-            var currentMoment = TimeProvider.UtcNow;
+            var currentMoment = UtcNow;
             while (true)
             {
                 watch.Restart();
@@ -80,7 +82,7 @@ namespace EasyRates.WriterApp
                     logger.LogDebug($"Updating takes {watch.ElapsedMilliseconds} ms.");
 
                     var nextMoment = timetable.GetNextMoment(currentMoment);
-                    var now = TimeProvider.UtcNow;
+                    var now = UtcNow;
                     
                     // should already be started
                     if (nextMoment < now)
@@ -104,7 +106,9 @@ namespace EasyRates.WriterApp
 
             writerStopped.Set();
         }
-        
+
+        private DateTime UtcNow => clock.UtcNow.UtcDateTime;
+
         private void CheckIsntDisposed()
         {
             if (disposed)

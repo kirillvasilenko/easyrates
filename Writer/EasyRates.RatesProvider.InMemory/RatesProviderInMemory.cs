@@ -2,18 +2,23 @@
 using System.Threading.Tasks;
 using EasyRates.Model;
 using EasyRates.Writer;
-using Time;
+using Microsoft.Extensions.Internal;
+using Microsoft.Extensions.Options;
 
 namespace EasyRates.RatesProvider.InMemory
 {
     public class RatesProviderInMemory:IRatesProvider
     {
+        private readonly ISystemClock clock;
         private Random r = new Random();
-        
-        public RatesProviderInMemory(int priority, string name)
+
+        public RatesProviderInMemory(
+            IOptions<RatesProviderInMemoryOptions> opts,
+            ISystemClock clock)
         {
-            Priority = priority;
-            Name = name;
+            this.clock = clock;
+            Priority = opts.Value.Priority;
+            Name = opts.Value.Name;
         }
         
         public int Priority { get; }
@@ -25,7 +30,7 @@ namespace EasyRates.RatesProvider.InMemory
             var rub2usd = new decimal(r.Next(1, 100));
             var rub2eur = new decimal(r.Next(1, 100));
 
-            var now = TimeProvider.UtcNow;
+            var now = clock.UtcNow.UtcDateTime;
             var result = new[]
             {
                 new CurrencyRate
