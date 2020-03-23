@@ -1,21 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\Model\EasyRates.Model.Ef.Pg\EasyRates.Model.Ef.Pg.csproj" />
       <ProjectReference Include="..\EasyRates.Reader\EasyRates.Reader.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Autofac">
-        <Version>4.9.2</Version>
-      </PackageReference>
-      <PackageReference Include="AutoMapper">
-        <Version>8.1.0</Version>
-      </PackageReference>
-    </ItemGroup>
-
+    
 </Project>

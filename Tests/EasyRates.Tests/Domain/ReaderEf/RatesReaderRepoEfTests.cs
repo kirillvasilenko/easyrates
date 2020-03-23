@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoFixture;
 using EasyRates.Model;
 using EasyRates.Model.Ef;
-using EasyRates.Reader.Ef;
 using EasyRates.Reader.Model;
 using EfCore.Common;
 using FluentAssertions;

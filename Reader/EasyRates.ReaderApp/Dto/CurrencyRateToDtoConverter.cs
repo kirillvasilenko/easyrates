@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EasyRates.Model;
-#pragma warning disable 1591
+
 namespace EasyRates.ReaderApp.Dto
 {
     public static class CurrencyRateToDtoConverter

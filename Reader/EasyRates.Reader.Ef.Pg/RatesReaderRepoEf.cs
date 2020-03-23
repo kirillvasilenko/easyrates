@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using EasyRates.Model;
-using EasyRates.Model.Ef;
+using EasyRates.Model.Ef.Pg;
 using EasyRates.Reader.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyRates.Reader.Ef
+namespace EasyRates.Reader.Ef.Pg
 {
     public class RatesReaderRepoEf:IRatesReaderRepo
     {

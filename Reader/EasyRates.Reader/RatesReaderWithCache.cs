@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyRates.Model;
 using Microsoft.Extensions.Caching.Memory;
-using Time;
+using Microsoft.Extensions.Internal;
 
 namespace EasyRates.Reader.Model
 {
@@ -12,14 +12,17 @@ namespace EasyRates.Reader.Model
     {
         private readonly IRatesReaderRepo repo;
         private readonly IMemoryCache cache;
-        
+        private readonly ISystemClock clock;
+
 
         public RatesReaderWithCache(
             IRatesReaderRepo repo, 
-            IMemoryCache cache)
+            IMemoryCache cache,
+            ISystemClock clock)
         {
             this.repo = repo;
             this.cache = cache;
+            this.clock = clock;
         }
         
         public async Task<CurrencyRate> GetRate(string @from, string to)
@@ -52,7 +55,10 @@ namespace EasyRates.Reader.Model
         
         private TimeSpan GetAbsoluteExpirationRelativeNow(DateTime absoluteExpiration)
         {
-            return absoluteExpiration.ToAbsoluteExpirationRelativeNow(TimeSpan.FromSeconds(5));
+            var now = clock.UtcNow;
+            return absoluteExpiration > now 
+                ? absoluteExpiration - now
+                : TimeSpan.FromSeconds(5);
         }
     }
 }

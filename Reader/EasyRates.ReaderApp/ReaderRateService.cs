@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using EasyRates.Model;
 using EasyRates.Reader.Model;
 using EasyRates.ReaderApp.Dto;
-#pragma warning disable 1591
+
 namespace EasyRates.ReaderApp
 {
     public class ReaderRateService : IReaderRateService
