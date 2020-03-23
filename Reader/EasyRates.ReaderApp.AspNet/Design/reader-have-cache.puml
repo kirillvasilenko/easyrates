@@ -1,0 +1,8 @@
+@startuml
+
+Component ReaderApp{
+    Component Cache
+}
+
+
+@enduml

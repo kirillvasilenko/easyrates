@@ -1,0 +1,12 @@
+@startuml
+(*)  --> "(from, to)"
+If "(from, to)\ncontains in cache" then
+-l-> [Yes] "rate = cache.Get(from, to)"
+--> "return rate"
+else 
+-r-> [No] "rate = DB.Get(from, to)"
+--> "cache.Add(from, to, rate, rate.ExpirationTime)"
+--> "return rate"
+Endif
+-->(*)
+@enduml

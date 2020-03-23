@@ -1,0 +1,11 @@
+@startuml
+
+[Ui]
+[App]
+[Domain]
+[Utils]
+
+Ui --> App
+App --> Domain
+Domain --> Utils
+@enduml
