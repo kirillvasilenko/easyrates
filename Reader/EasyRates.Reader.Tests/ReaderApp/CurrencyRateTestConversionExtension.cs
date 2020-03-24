@@ -2,7 +2,7 @@ using EasyRates.Model;
 using EasyRates.ReaderApp.Dto;
 using FluentAssertions;
 
-namespace EasyRates.Tests.App.ReaderApp
+namespace EasyRates.Reader.Tests.ReaderApp
 {
     public static class CurrencyRateTestConversionExtension
     {

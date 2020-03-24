@@ -38,7 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Domain\Model" />
+      <Folder Include="Ui\ReaderApp.AspNet" />
     </ItemGroup>
 
 </Project>

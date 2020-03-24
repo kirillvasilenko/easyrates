@@ -9,7 +9,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace EasyRates.Tests.App.ReaderApp
+namespace EasyRates.Reader.Tests.ReaderApp
 {
     public class ReaderRateServiceTests
     {

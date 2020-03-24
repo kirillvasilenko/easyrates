@@ -5,7 +5,7 @@ using EasyRates.ReaderApp.Dto;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyRates.Tests.App.ReaderApp
+namespace EasyRates.Reader.Tests.ReaderApp
 {
     public class CurrencyRateToDtoConverterTests
     {

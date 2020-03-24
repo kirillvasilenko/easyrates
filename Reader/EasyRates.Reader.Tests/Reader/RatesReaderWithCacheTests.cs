@@ -6,28 +6,30 @@ using EasyRates.Model;
 using EasyRates.Reader.Model;
 using FluentAssertions;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Internal;
 using Moq;
-using Time;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.Reader
+namespace EasyRates.Reader.Tests.Reader
 {
     public class RatesReaderWithCacheTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
 
-        private RatesReaderWithCache reader;
+        private readonly RatesReaderWithCache reader;
         
-        private Mock<IRatesReaderRepo> repo = new Mock<IRatesReaderRepo>(MockBehavior.Strict);
+        private readonly Mock<IRatesReaderRepo> repo = new Mock<IRatesReaderRepo>(MockBehavior.Strict);
         
-        private Mock<IMemoryCache> cache = new Mock<IMemoryCache>(MockBehavior.Strict);
+        private readonly Mock<IMemoryCache> cache = new Mock<IMemoryCache>(MockBehavior.Strict);
 
-        private TimeProviderTest time;
+        private readonly Mock<ISystemClock> clock = new Mock<ISystemClock>();
+
+        private readonly DateTimeOffset currentTime = DateTimeOffset.UtcNow;
         
         public RatesReaderWithCacheTests()
         {
-            time = TimeProviderTest.SetAndGetTimeProviderTestInstanceIfNeed();
-            reader = new RatesReaderWithCache(repo.Object, cache.Object);
+            clock.Setup(x => x.UtcNow).Returns(currentTime);
+            reader = new RatesReaderWithCache(repo.Object, cache.Object, clock.Object);
         }
 
         [Fact]
@@ -51,8 +53,7 @@ namespace EasyRates.Tests.Domain.Reader
             var to = fixture.Create<string>();
             var rate = fixture.Create<CurrencyRate>();
             var cacheEntry = new Mock<ICacheEntry>();
-            var expirationTimeExpectedInCache =
-                rate.ExpirationTime.ToAbsoluteExpirationRelativeNow(TimeSpan.FromSeconds(5));
+            var expirationTimeExpectedInCache = GetAbsoluteExpirationRelativeNow(rate.ExpirationTime);
 
             object cacheResult = null;
             cache.Setup(c => c.TryGetValue(from + to, out cacheResult)).Returns(false);
@@ -88,8 +89,7 @@ namespace EasyRates.Tests.Domain.Reader
             var from = fixture.Create<string>();
             var rates = fixture.Create<CurrencyRate[]>();
             var cacheEntry = new Mock<ICacheEntry>();
-            var expirationTimeExpectedInCache =
-                rates.First().ExpirationTime.ToAbsoluteExpirationRelativeNow(TimeSpan.FromSeconds(5));
+            var expirationTimeExpectedInCache = GetAbsoluteExpirationRelativeNow(rates.First().ExpirationTime);
 
             object cacheResult = null;
             cache.Setup(c => c.TryGetValue(from, out cacheResult)).Returns(false);
@@ -102,6 +102,14 @@ namespace EasyRates.Tests.Domain.Reader
             
             cache.Verify(c => c.CreateEntry(from), Times.Once);
             cacheEntry.VerifySet(c => c.AbsoluteExpirationRelativeToNow = expirationTimeExpectedInCache);
+        }
+        
+        private TimeSpan GetAbsoluteExpirationRelativeNow(DateTime absoluteExpiration)
+        {
+            var now = currentTime;
+            return absoluteExpiration > now 
+                ? absoluteExpiration - now
+                : TimeSpan.FromSeconds(5);
         }
     }
 }

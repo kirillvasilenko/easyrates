@@ -2,29 +2,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using EasyRates.Model;
-using EasyRates.Model.Ef;
+using EasyRates.Model.Ef.Pg;
+using EasyRates.Reader.Ef.Pg;
 using EasyRates.Reader.Model;
-using EfCore.Common;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.ReaderEf
+namespace EasyRates.Reader.Tests.ReaderEfPg
 {
     public class RatesReaderRepoEfTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
 
-        private RatesReaderRepoEf repo;
+        private readonly RatesReaderRepoEf repo;
 
-        private RatesContext context;
+        private readonly RatesContext context;
         
         public RatesReaderRepoEfTests()
         {
-            context = new RatesContext(new RatesDbParams
-            {
-                ConnectionString = "test",
-                DbType = DbType.InMemory
-            });
+            var opts = new DbContextOptionsBuilder<RatesContext>()
+                .UseInMemoryDatabase(fixture.Create<string>())
+                .Options;
+            
+            context = new RatesContext(opts);;
             repo = new RatesReaderRepoEf(context);
         }
 
