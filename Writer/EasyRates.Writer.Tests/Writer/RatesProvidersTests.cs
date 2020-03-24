@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyRates.Writer;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.Writer
+namespace EasyRates.Writer.Tests.Writer
 {
     public class RatesProvidersTests
     {
         private Random r = new Random();
         
-        private OrderedRatesProviders orderedProviders;
+        private readonly OrderedRatesProviders orderedProviders;
 
-        private ICollection<IRatesProvider> providers;
+        private readonly ICollection<IRatesProvider> providers;
 
         public RatesProvidersTests()
         {

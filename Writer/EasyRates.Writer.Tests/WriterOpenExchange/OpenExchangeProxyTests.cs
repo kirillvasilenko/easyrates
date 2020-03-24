@@ -3,7 +3,7 @@ using EasyRates.RatesProvider.OpenExchange;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
+namespace EasyRates.Writer.Tests.WriterOpenExchange
 {
     public class OpenExchangeProxyTests
     {

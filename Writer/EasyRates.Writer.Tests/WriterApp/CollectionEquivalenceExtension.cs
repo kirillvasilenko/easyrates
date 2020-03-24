@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 
-namespace EasyRates.Tests.Common
+namespace EasyRates.Writer.Tests.WriterApp
 {
     public static class CollectionEquivalenceExtension
     {

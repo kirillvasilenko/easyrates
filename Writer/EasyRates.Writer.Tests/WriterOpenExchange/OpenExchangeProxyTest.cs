@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using EasyRates.RatesProvider.OpenExchange;
 
-namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
+namespace EasyRates.Writer.Tests.WriterOpenExchange
 {
     public class OpenExchangeProxyTest : IOpenExchangeProxy
     {
         
-        private Dictionary<string, InvokeCase> caseByFrom;
+        private readonly Dictionary<string, InvokeCase> caseByFrom;
 
         public OpenExchangeProxyTest(
             ICollection<InvokeCase> invokeCases)
@@ -17,7 +17,7 @@ namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
             caseByFrom = invokeCases.ToDictionary(t => t.From, t => t);
         }
         
-        public async Task<LatestRateResponse> GetCurrentRates(string @from)
+        public async Task<ActualRateResponse> GetCurrentRates(string @from)
         {
             var invokeCase = caseByFrom[from];
             await Task.Delay(invokeCase.EmulationTime);
@@ -36,7 +36,7 @@ namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
         
             public bool ThrowException { get; set; }
         
-            public LatestRateResponse Response { get; set; }
+            public ActualRateResponse Response { get; set; }
         }
     }
 }

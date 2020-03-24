@@ -5,33 +5,37 @@ using System.Threading.Tasks;
 using AutoFixture;
 using EasyRates.RatesProvider.OpenExchange;
 using FluentAssertions;
+using Microsoft.Extensions.Internal;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
+namespace EasyRates.Writer.Tests.WriterOpenExchange
 {
-    public class OpenExchangeRatesProviderForPoorTests
+    public class OpenExchangeRatesProviderTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
 
-        private OpenExchangeRatesProviderForPoor provider;
+        private readonly Mock<ISystemClock> clock = new Mock<ISystemClock>();
         
-        private Mock<IOpenExchangeProxy> proxy = new Mock<IOpenExchangeProxy>(MockBehavior.Strict);
+        private readonly OpenExchangeProviderOptions opts;
 
-        private OpenExchangeRateProviderSettings settings;
+        private readonly ILogger<OpenExchangeRatesProvider> logger = new NullLogger<OpenExchangeRatesProvider>();
         
-        private Mock<ILogger<OpenExchangeRatesProviderForPoor>> logger = new Mock<ILogger<OpenExchangeRatesProviderForPoor>>();
+        private readonly DateTime currentTime = DateTime.UtcNow;
         
-        public OpenExchangeRatesProviderForPoorTests()
+        public OpenExchangeRatesProviderTests()
         {
-            settings = new OpenExchangeRateProviderSettings()
+            opts = new OpenExchangeProviderOptions
             {
                 Name = fixture.Create<string>(),
                 Priority = fixture.Create<int>(),
                 Currencies = fixture.CreateMany<string>().ToArray()
             };
             
+            clock.Setup(x => x.UtcNow).Returns(currentTime);
         }
 
         private OpenExchangeProxyTest.InvokeCase MakeCase(TimeSpan emulationTime, bool throwException = false)
@@ -39,7 +43,7 @@ namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
             return new OpenExchangeProxyTest.InvokeCase()
             {
                 From = fixture.Create<string>(),
-                Response = fixture.Create<LatestRateResponse>(),
+                Response = fixture.Create<ActualRateResponse>(),
                 ThrowException = throwException,
                 EmulationTime = emulationTime
             };
@@ -53,16 +57,16 @@ namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
             var case3 = MakeCase(TimeSpan.FromSeconds(1));
 
             var currencies = new[] {case1.From, case2.From, case3.From};
-            settings.Currencies = currencies;
+            opts.Currencies = currencies;
             
             var expectedResult = new[] {case1.Response, case2.Response, case3.Response}
-                .Select(r => r.ToDomain(settings.Name))
+                .Select(r => r.ToDomain(opts.Name, currentTime))
                 .SelectMany(r => r)
                 .ToArray();
             
             var proxy = new OpenExchangeProxyTest(new []{case1, case2, case3});
             
-            provider = new OpenExchangeRatesProviderForPoor(proxy, settings, logger.Object);
+            var provider = new OpenExchangeRatesProvider(proxy, clock.Object, Options.Create(opts), logger);
 
             var watch = new Stopwatch();
             watch.Start();
@@ -71,7 +75,7 @@ namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
             
             // it means that proxy was invoked simultaneously for every currency
             Assert.True(watch.Elapsed < TimeSpan.FromSeconds(3));
-            
+
             result.Should().BeEquivalentTo(expectedResult);
         }
         
@@ -83,16 +87,16 @@ namespace EasyRates.Tests.Domain.RatesProviderOpenExchange
             var case3 = MakeCase(TimeSpan.FromSeconds(1));
 
             var currencies = new[] {case1.From, case2.From, case3.From};
-            settings.Currencies = currencies;
+            opts.Currencies = currencies;
             
             var expectedResult = new[] {case1.Response, case3.Response}
-                .Select(r => r.ToDomain(settings.Name))
+                .Select(r => r.ToDomain(opts.Name, currentTime))
                 .SelectMany(r => r)
                 .ToArray();
             
             var proxy = new OpenExchangeProxyTest(new []{case1, case2, case3});
             
-            provider = new OpenExchangeRatesProviderForPoor(proxy, settings, logger.Object);
+            var provider = new OpenExchangeRatesProvider(proxy, clock.Object, Options.Create(opts), logger);
 
             var result = await provider.GetAllRates();
             

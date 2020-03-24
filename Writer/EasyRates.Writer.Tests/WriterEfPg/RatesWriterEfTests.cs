@@ -1,38 +1,48 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoMapper;
 using EasyRates.Model;
-using EasyRates.Model.Ef;
-using EasyRates.Writer.Ef;
-using EfCore.Common;
+using EasyRates.Model.Ef.Pg;
+using EasyRates.Writer.Ef.Pg;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.WriterEf
+namespace EasyRates.Writer.Tests.WriterEfPg
 {
     public class RatesWriterEfTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
 
-        private RatesWriterEf writer;
+        private readonly RatesWriterEf writer;
 
-        private RatesContext context;
+        private readonly RatesContext context;
+
+        private readonly IMapper mapper;
         
         public RatesWriterEfTests()
         {
-            context = new RatesContext(new RatesDbParams
-            {
-                ConnectionString = fixture.Create<string>(),
-                DbType = DbType.InMemory
-            });
-            writer = new RatesWriterEf(context);
+            var opts = new DbContextOptionsBuilder<RatesContext>()
+                .UseInMemoryDatabase(fixture.Create<string>())
+                .Options;
+            
+            var provider = new ServiceCollection()
+                .AddEasyRatesModel()
+                .BuildServiceProvider();
+            
+            mapper = provider.GetService<IMapper>();
+
+            context = new RatesContext(opts);
+            writer = new RatesWriterEf(context, mapper);
         }
 
         [Fact]
         public async Task AddRatesToHistory()
         {
             var rates = fixture.CreateMany<CurrencyRate>().ToList();
-            var expectedResult = rates.Select(r => r.ToHistoryItem());
+            var expectedResult = rates.Select(r => r.ToHistoryItem(mapper));
             
             await writer.AddRatesToHistory(rates);
 

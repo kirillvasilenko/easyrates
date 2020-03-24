@@ -7,17 +7,17 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace EasyRates.Tests.App.WriterApp
+namespace EasyRates.Writer.Tests.WriterApp
 {
     public class CurrencyRateProcessorTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         
-        private CurrencyRateProcessor processor;
+        private readonly CurrencyRateProcessor processor;
 
-        private Mock<ICurrencyNameFormatter> formatter = new Mock<ICurrencyNameFormatter>();
+        private readonly Mock<ICurrencyNameFormatter> formatter = new Mock<ICurrencyNameFormatter>();
         
-        private Mock<ITimetable> timetable = new Mock<ITimetable>();
+        private readonly Mock<ITimetable> timetable = new Mock<ITimetable>();
         
         public CurrencyRateProcessorTests()
         {
@@ -33,8 +33,8 @@ namespace EasyRates.Tests.App.WriterApp
             var froms = rates.Select(r => r.From).ToArray();
             var tos = rates.Select(r => r.To).ToArray();
 
-            var expectedFroms = froms.Select(f => TurboFormat(f)).ToArray();
-            var expectedTos = tos.Select(t => TurboFormat(t)).ToArray();
+            var expectedFroms = froms.Select(TurboFormat).ToArray();
+            var expectedTos = tos.Select(TurboFormat).ToArray();
             
             foreach (var rate in rates)
             {

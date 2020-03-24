@@ -4,20 +4,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using EasyRates.WriterApp;
 
-namespace EasyRates.Tests.App.WriterApp
+namespace EasyRates.Writer.Tests.WriterApp
 {
-    public class RatesUpdaterTest : IRatesUpdater
+    public class RatesUpdaterMock : IRatesUpdater
     {
         public int InvokesCount { get; set; }
 
         private Queue<InvokeCase> invokeCases;
 
-        public RatesUpdaterTest()
+        public RatesUpdaterMock()
         {
             invokeCases = new Queue<InvokeCase>();
         }
         
-        public RatesUpdaterTest(ICollection<InvokeCase> cases)
+        public RatesUpdaterMock(ICollection<InvokeCase> cases)
         {
             invokeCases = new Queue<InvokeCase>(cases);
         }

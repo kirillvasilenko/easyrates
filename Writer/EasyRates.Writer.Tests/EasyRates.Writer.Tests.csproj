@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Divergic.Logging.Xunit" Version="3.3.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+        <PackageReference Include="coverlet.collector" Version="1.2.0" />
+        <PackageReference Include="AutoFixture" Version="4.11.0" />
+        <PackageReference Include="FluentAssertions" Version="5.10.3" />
+        <PackageReference Include="Moq" Version="4.13.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EasyRates.RatesProvider.OpenExchange\EasyRates.RatesProvider.OpenExchange.csproj" />
+      <ProjectReference Include="..\EasyRates.Writer.Ef.Pg\EasyRates.Writer.Ef.Pg.csproj" />
+      <ProjectReference Include="..\EasyRates.WriterApp\EasyRates.WriterApp.csproj" />
+      <ProjectReference Include="..\EasyRates.Writer\EasyRates.Writer.csproj" />
+    </ItemGroup>
+
+</Project>

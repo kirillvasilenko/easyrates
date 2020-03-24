@@ -1,10 +1,9 @@
 using System;
 using EasyRates.WriterApp;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http.Extensions;
 using Xunit;
 
-namespace EasyRates.Tests.App.WriterApp
+namespace EasyRates.Writer.Tests.WriterApp
 {
     public class TimetableTests
     {
