@@ -1,7 +1,7 @@
 using EasyRates.Model.Ef.Pg;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyRates.Writer.Ef
+namespace EasyRates.Writer.Ef.Pg
 {
     public static class DiExtensions
     {

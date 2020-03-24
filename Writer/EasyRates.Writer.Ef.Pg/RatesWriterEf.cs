@@ -6,7 +6,7 @@ using EasyRates.Model;
 using EasyRates.Model.Ef.Pg;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyRates.Writer.Ef
+namespace EasyRates.Writer.Ef.Pg
 {
     public class RatesWriterEf:IRatesWriter
     {
