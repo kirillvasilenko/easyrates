@@ -13,11 +13,11 @@ namespace EasyRates.Model.Tests
         {
             var rate = new CurrencyRate()
             {
-                From = fixture.Create<string>(),
-                To = fixture.Create<string>()
+                CurrencyFrom = fixture.Create<string>(),
+                CurrencyTo = fixture.Create<string>()
             };
 
-            rate.Key.Should().Be(rate.From + rate.To);
+            rate.Key.Should().Be(rate.CurrencyFrom + rate.CurrencyTo);
         }
     }
 }

@@ -35,8 +35,8 @@ namespace EasyRates.RatesProvider.InMemory
             {
                 new CurrencyRate
                 {
-                    From = "RUB",
-                    To = "USD",
+                    CurrencyFrom = "RUB",
+                    CurrencyTo = "USD",
                     Value = rub2usd,
                     TimeOfReceipt = now,
                     OriginalPublishedTime = now,
@@ -44,8 +44,8 @@ namespace EasyRates.RatesProvider.InMemory
                 },
                 new CurrencyRate
                 {
-                    From = "USD",
-                    To = "RUB",
+                    CurrencyFrom = "USD",
+                    CurrencyTo = "RUB",
                     Value = 1 / rub2usd,
                     TimeOfReceipt = now,
                     OriginalPublishedTime = now,
@@ -53,8 +53,8 @@ namespace EasyRates.RatesProvider.InMemory
                 },
                 new CurrencyRate
                 {
-                    From = "RUB",
-                    To = "EUR",
+                    CurrencyFrom = "RUB",
+                    CurrencyTo = "EUR",
                     Value = rub2eur,
                     TimeOfReceipt = now,
                     OriginalPublishedTime = now,
@@ -62,8 +62,8 @@ namespace EasyRates.RatesProvider.InMemory
                 },
                 new CurrencyRate
                 {
-                    From = "EUR",
-                    To = "RUB",
+                    CurrencyFrom = "EUR",
+                    CurrencyTo = "RUB",
                     Value = 1 / rub2eur,
                     TimeOfReceipt = now,
                     OriginalPublishedTime = now,

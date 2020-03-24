@@ -16,7 +16,7 @@ namespace EasyRates.ReaderApp.Dto
         {
             return new RatesResponse
             {
-                From = rates.First().From,
+                CurrencyFrom = rates.First().CurrencyFrom,
                 Rates = rates.Select(ToRateInfo).ToArray()
             };
         }
@@ -25,7 +25,7 @@ namespace EasyRates.ReaderApp.Dto
         {
             return new RateInfo
             {
-                To = rate.To,
+                CurrencyTo = rate.CurrencyTo,
                 Rate = rate.Value,
                 ExpireAt = rate.ExpirationTime
             };

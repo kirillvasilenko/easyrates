@@ -5,11 +5,11 @@ namespace EasyRates.Model
     public class CurrencyRate
     {
         
-        public string From { get; set; }
+        public string CurrencyFrom { get; set; }
         
-        public string To { get; set; }
+        public string CurrencyTo { get; set; }
 
-        public string Key => From + To;
+        public string Key => CurrencyFrom + CurrencyTo;
         
         public decimal Value { get; set; }
         

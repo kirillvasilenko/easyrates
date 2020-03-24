@@ -30,22 +30,22 @@ namespace EasyRates.Writer.Tests.WriterApp
         {
             var rates = fixture.CreateMany<CurrencyRate>().ToArray();
 
-            var froms = rates.Select(r => r.From).ToArray();
-            var tos = rates.Select(r => r.To).ToArray();
+            var froms = rates.Select(r => r.CurrencyFrom).ToArray();
+            var tos = rates.Select(r => r.CurrencyTo).ToArray();
 
             var expectedFroms = froms.Select(TurboFormat).ToArray();
             var expectedTos = tos.Select(TurboFormat).ToArray();
             
             foreach (var rate in rates)
             {
-                formatter.Setup(f => f.FormatName(rate.From)).Returns(TurboFormat(rate.From));
-                formatter.Setup(f => f.FormatName(rate.To)).Returns(TurboFormat(rate.To));
+                formatter.Setup(f => f.FormatName(rate.CurrencyFrom)).Returns(TurboFormat(rate.CurrencyFrom));
+                formatter.Setup(f => f.FormatName(rate.CurrencyTo)).Returns(TurboFormat(rate.CurrencyTo));
             }
             
             processor.Process(rates);
 
-            var resultFroms = rates.Select(r => r.From).ToArray();
-            var resultTos = rates.Select(r => r.To).ToArray();
+            var resultFroms = rates.Select(r => r.CurrencyFrom).ToArray();
+            var resultTos = rates.Select(r => r.CurrencyTo).ToArray();
 
             resultFroms.Should().BeEquivalentTo(expectedFroms, c => c.WithStrictOrdering());
             resultTos.Should().BeEquivalentTo(expectedTos, c => c.WithStrictOrdering());

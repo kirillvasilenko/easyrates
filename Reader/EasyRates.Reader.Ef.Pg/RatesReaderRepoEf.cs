@@ -19,7 +19,7 @@ namespace EasyRates.Reader.Ef.Pg
         public async Task<CurrencyRate> GetRate(string from, string to)
         {
             var result = await context.ActualRates.FirstOrDefaultAsync(
-                d => d.From == from && d.To == to);
+                d => d.CurrencyFrom == from && d.CurrencyTo == to);
 
             if (result == null)
             {
@@ -32,7 +32,7 @@ namespace EasyRates.Reader.Ef.Pg
         public async Task<CurrencyRate[]> GetRates(string from)
         {
             var result = await context.ActualRates.Where(
-                    d => d.From == from)
+                    d => d.CurrencyFrom == from)
                 .ToArrayAsync();
 
             if (!result.Any())

@@ -29,8 +29,8 @@ namespace EasyRates.WriterApp
         {
             foreach (var rate in rates)
             {
-                rate.From = formatter.FormatName(rate.From);
-                rate.To = formatter.FormatName(rate.To);
+                rate.CurrencyFrom = formatter.FormatName(rate.CurrencyFrom);
+                rate.CurrencyTo = formatter.FormatName(rate.CurrencyTo);
             }
         }
 

@@ -1,0 +1,26 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+
+  "profiles": {
+
+    "EasyRates.Migrator.Pg": {
+      "commandName": "Project",
+      "environmentVariables": {
+
+        "EasyRates__Server": "localhost",
+        "EasyRates__Port": "5432",
+
+        "EasyRates__CreateDb": "true",
+
+        "EasyRates__Creator": "postgres",
+        "EasyRates__CreatorPassword": "admin",
+        "EasyRates__CreatorDb": "postgres",
+
+        "EasyRates__Migrator": "easyrates_migrator",
+        "EasyRates__MigratorPassword": "easyrates_migrator",
+        "EasyRates__MigratorDb": "easyrates"
+      }
+    }
+  }
+}
+

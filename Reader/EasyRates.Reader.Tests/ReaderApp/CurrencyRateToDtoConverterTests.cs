@@ -18,7 +18,7 @@ namespace EasyRates.Reader.Tests.ReaderApp
 
             var dto = rates.ToDto();
 
-            dto.From.Should().Be(rates.First().From);
+            dto.CurrencyFrom.Should().Be(rates.First().CurrencyFrom);
 
             for (int i = 0; i < rates.Count; i++)
             {

@@ -15,9 +15,9 @@ namespace EasyRates.RatesProvider.OpenExchange
             return response.Rates.Select(kv => 
                 new CurrencyRate
                 {
-                    From = response.Base,
+                    CurrencyFrom = response.Base,
                     ProviderName = providerName,
-                    To = kv.Key,
+                    CurrencyTo = kv.Key,
                     Value = kv.Value,
                     TimeOfReceipt = currentTimeUtc,
                     OriginalPublishedTime = response.TimeStamp.ToDateTimeUtc()

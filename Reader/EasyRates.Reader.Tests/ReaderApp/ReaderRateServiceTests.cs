@@ -35,15 +35,15 @@ namespace EasyRates.Reader.Tests.ReaderApp
             var formattedFrom = fixture.Create<string>();
             var formattedTo = fixture.Create<string>();
 
-            formatter.Setup(f => f.FormatName(rate.From)).Returns(formattedFrom);
-            formatter.Setup(f => f.FormatName(rate.To)).Returns(formattedTo);
+            formatter.Setup(f => f.FormatName(rate.CurrencyFrom)).Returns(formattedFrom);
+            formatter.Setup(f => f.FormatName(rate.CurrencyTo)).Returns(formattedTo);
 
             validator.Setup(v => v.Validate(formattedFrom));
             validator.Setup(v => v.Validate(formattedTo));
 
             ratesReader.Setup(r => r.GetRate(formattedFrom, formattedTo)).ReturnsAsync(rate);
 
-            var result = await svc.GetRate(rate.From, rate.To);
+            var result = await svc.GetRate(rate.CurrencyFrom, rate.CurrencyTo);
 
             var expectedResult = rate.ToDto();
             result.Should().BeEquivalentTo(expectedResult);
@@ -56,13 +56,13 @@ namespace EasyRates.Reader.Tests.ReaderApp
             var rates = fixture.CreateMany<CurrencyRate>().ToList();
             var formattedFrom = fixture.Create<string>();
 
-            formatter.Setup(f => f.FormatName(rates.First().From)).Returns(formattedFrom);
+            formatter.Setup(f => f.FormatName(rates.First().CurrencyFrom)).Returns(formattedFrom);
 
             validator.Setup(v => v.Validate(formattedFrom));
             
             ratesReader.Setup(r => r.GetRates(formattedFrom)).ReturnsAsync(rates);
 
-            var result = await svc.GetRates(rates.First().From);
+            var result = await svc.GetRates(rates.First().CurrencyFrom);
 
             var expectedResult = rates.ToDto();
             result.Should().BeEquivalentTo(expectedResult);

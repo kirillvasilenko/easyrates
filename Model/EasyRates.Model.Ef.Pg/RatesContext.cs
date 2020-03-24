@@ -17,11 +17,11 @@ namespace EasyRates.Model.Ef.Pg
         {
             base.OnModelCreating(builder);
             
-            builder.RemovePluralizingTableNameConvention();
+            //builder.RemovePluralizingTableNameConvention();
 
             builder.Entity<CurrencyRate>()
                 .Ignore(r => r.Key)
-                .HasKey(o => new {o.From, o.To});
+                .HasKey(o => new {From = o.CurrencyFrom, To = o.CurrencyTo});
         }
 
     }

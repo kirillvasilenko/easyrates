@@ -10,7 +10,7 @@ namespace EasyRates.ReaderApp.Dto
         /// <summary>
         /// Currency to
         /// </summary>
-        public string To { get; set; }
+        public string CurrencyTo { get; set; }
     
         /// <summary>
         /// Rate value

@@ -8,7 +8,7 @@ namespace EasyRates.ReaderApp.Dto
         /// <summary>
         /// Currency from
         /// </summary>
-        public string From { get; set; }
+        public string CurrencyFrom { get; set; }
         
         /// <summary>
         /// Rates

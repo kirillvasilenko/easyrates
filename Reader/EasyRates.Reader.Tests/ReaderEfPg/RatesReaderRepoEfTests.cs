@@ -37,7 +37,7 @@ namespace EasyRates.Reader.Tests.ReaderEfPg
             context.ActualRates.Add(rate);
             context.SaveChanges();
             
-            var result = await repo.GetRate(rate.From, rate.To);
+            var result = await repo.GetRate(rate.CurrencyFrom, rate.CurrencyTo);
 
             result.Should().Be(rate);
         }
@@ -55,7 +55,7 @@ namespace EasyRates.Reader.Tests.ReaderEfPg
         {
             var from = fixture.Create<string>();
             var rates = fixture.Build<CurrencyRate>()
-                .With(r => r.From, from)
+                .With(r => r.CurrencyFrom, from)
                 .CreateMany()
                 .ToList();
 

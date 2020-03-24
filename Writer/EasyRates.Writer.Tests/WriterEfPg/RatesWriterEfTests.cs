@@ -66,8 +66,8 @@ namespace EasyRates.Writer.Tests.WriterEfPg
 
             var rates = fixture.CreateMany<CurrencyRate>().ToList();
             var updatedOldRate = rates.First();
-            updatedOldRate.From = oldRate.From;
-            updatedOldRate.To = oldRate.To;
+            updatedOldRate.CurrencyFrom = oldRate.CurrencyFrom;
+            updatedOldRate.CurrencyTo = oldRate.CurrencyTo;
             
             await writer.SetActualRates(rates);
 

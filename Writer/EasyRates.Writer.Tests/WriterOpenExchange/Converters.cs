@@ -22,8 +22,8 @@ namespace EasyRates.Writer.Tests.WriterOpenExchange
             rates.Should().HaveCount(response.Rates.Count);
             foreach (var rate in rates)
             {
-                rate.From.Should().Be(response.Base);
-                var rateValue = response.Rates[rate.To];
+                rate.CurrencyFrom.Should().Be(response.Base);
+                var rateValue = response.Rates[rate.CurrencyTo];
                 rate.Value.Should().Be(rateValue);
                 rate.ProviderName.Should().Be(providerName);
                 rate.TimeOfReceipt.Should().Be(currentTime);
