@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Internal;
 
 namespace EasyRates.ReaderApp.AspNet
 {
@@ -35,6 +36,7 @@ namespace EasyRates.ReaderApp.AspNet
 
             services.AddEasyRatesReaderApp();
             services.AddEasyRatesReaderEfPg(Config.GetConnectionString("DefaultConnection"));
+            services.AddSingleton<ISystemClock, SystemClock>();
             
             services.AddProblemDetails(opts =>
             {
