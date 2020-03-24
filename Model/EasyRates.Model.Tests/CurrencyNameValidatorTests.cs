@@ -1,7 +1,6 @@
-using EasyRates.Model;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.Model
+namespace EasyRates.Model.Tests
 {
     public class CurrencyNameValidatorTests
     {

@@ -1,9 +1,8 @@
 using AutoFixture;
-using EasyRates.Model;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.Model
+namespace EasyRates.Model.Tests
 {
     public class CurrencyRateTests
     {

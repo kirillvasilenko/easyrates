@@ -37,4 +37,8 @@
       <ProjectReference Include="..\..\Writer\EasyRates.Writer.Ef.Pg\EasyRates.Writer.Ef.Pg.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Domain\Model" />
+    </ItemGroup>
+
 </Project>

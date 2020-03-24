@@ -1,15 +1,14 @@
 using AutoFixture;
-using EasyRates.Model;
 using FluentAssertions;
 using Xunit;
 
-namespace EasyRates.Tests.Domain.Model
+namespace EasyRates.Model.Tests
 {
     public class CurrencyNameFormatterTests
     {
-        private Fixture fixture = new Fixture();
+        private readonly Fixture fixture = new Fixture();
         
-        private CurrencyNameFormatter formatter = new CurrencyNameFormatter();
+        private readonly CurrencyNameFormatter formatter = new CurrencyNameFormatter();
         
         [Fact]
         public void FormatsToUpperCase()

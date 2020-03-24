@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AutoMapper;
 
 namespace EasyRates.Model
@@ -7,7 +8,9 @@ namespace EasyRates.Model
         public CurrencyRateAutoMapperProfile()
         {
             CreateMap<CurrencyRate, CurrencyRate>();
-            CreateMap<CurrencyRate, CurrencyRateHistoryItem>();
+
+            CreateMap<CurrencyRate, CurrencyRateHistoryItem>()
+                .ForMember(d => d.Id, x => x.Ignore());
         }
     }
 }
