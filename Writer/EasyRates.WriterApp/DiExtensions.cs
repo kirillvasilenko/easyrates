@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace EasyRates.WriterApp
 {
@@ -14,10 +16,10 @@ namespace EasyRates.WriterApp
             var updatePeriod = config.GetValue("UpdatePeriod", TimeSpan.FromHours(1));
             
             return services
-                .AddScoped<ITimetable>(c => new Timetable(anchorTime, updatePeriod))
-                .AddScoped<ICurrencyRateProcessor, CurrencyRateProcessor>()
-                .AddScoped<IRatesUpdater, RatesUpdater>()
-                .AddScoped<IWriterApp, WriterApp>();
+                .AddSingleton<ITimetable>(c => new Timetable(anchorTime, updatePeriod))
+                .AddSingleton<IRatesUpdater, RatesUpdater>()
+                .AddSingleton<IWriterApp, WriterApp>()
+                .AddTransient<ICurrencyRateProcessor, CurrencyRateProcessor>();
         }
     }
 }

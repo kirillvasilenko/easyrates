@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace EasyRates.WriterApp.AspNet
+namespace EasyRates.WriterApp.AspNet.HostedServices
 {
 	public class WriterHostedService : IHostedService, IDisposable
 	{

@@ -66,7 +66,13 @@ namespace EasyRates.WriterApp.AspNet
                         .UseConfiguration(configuration)
                         .UseSerilog()
                         .UseStartup<Startup>();
-                });
+                })
+                // Add a new service provider configuration
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                    options.ValidateOnBuild = true;
+                });;
         }
     }
 }

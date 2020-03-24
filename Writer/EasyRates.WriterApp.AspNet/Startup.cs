@@ -2,6 +2,7 @@ using System;
 using EasyRates.RatesProvider.InMemory;
 using EasyRates.RatesProvider.OpenExchange;
 using EasyRates.Writer.Ef.Pg;
+using EasyRates.WriterApp.AspNet.HostedServices;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,22 +36,7 @@ namespace EasyRates.WriterApp.AspNet
             
             ConfigureSwagger(services);
 
-            services.AddEasyRatesWriterEfPg(Config.GetConnectionString("DefaultConnection"));
-            services.AddEasyRatesWriterApp(Config.GetSection("Timetable"));
-            
-            var inMemoryProviderConfig = Config.GetSection("ProviderInMemory");
-            if (inMemoryProviderConfig.GetValue("Enabled", false))
-            {
-                services.AddEasyRatesProviderInMemory(inMemoryProviderConfig);
-            }
-            
-            var openExchangeConfig = Config.GetSection("ProviderOpenExchange");
-            if (openExchangeConfig.GetValue("Enabled", false))
-            {
-                services.AddEasyRatesProviderOpenExchange(openExchangeConfig);
-            }
-            
-            services.AddHostedService<WriterHostedService>();
+            services.AddEasyRatesWriterAppAspNet(Config);
             
             services.AddProblemDetails(opts =>
             {

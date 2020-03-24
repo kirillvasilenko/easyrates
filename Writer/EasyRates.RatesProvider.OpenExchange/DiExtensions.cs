@@ -15,8 +15,8 @@ namespace EasyRates.RatesProvider.OpenExchange
             
             return services
                 .Configure<OpenExchangeProviderOptions>(configuration)
-                .AddScoped<IOpenExchangeProxy>(c => new OpenExchangeProxy(appId))
-                .AddScoped<IRatesProvider, OpenExchangeRatesProvider>();
+                .AddTransient<IOpenExchangeProxy>(c => new OpenExchangeProxy(appId))
+                .AddTransient<IRatesProvider, OpenExchangeRatesProvider>();
         }
         
     }

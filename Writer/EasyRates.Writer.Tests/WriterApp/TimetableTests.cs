@@ -1,6 +1,7 @@
 using System;
 using EasyRates.WriterApp;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace EasyRates.Writer.Tests.WriterApp

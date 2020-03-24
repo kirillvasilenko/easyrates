@@ -35,7 +35,7 @@ namespace EasyRates.Writer.Tests.WriterApp
                 new RatesUpdaterMock.InvokeCase()
             };
             updater = new RatesUpdaterMock(cases);
-            app = new EasyRates.WriterApp.WriterApp(updater, timetable.Object, clock.Object, logger);
+            app = new EasyRates.WriterApp.WriterApp(updater, timetable.Object, new SystemClock(), logger);
         }
 
 
@@ -46,20 +46,46 @@ namespace EasyRates.Writer.Tests.WriterApp
             timetable.Setup(t => t.GetNextMoment(It.IsAny<DateTime>()))
                 .Returns(new Func<DateTime, DateTime>(d => d.Add(aLittleTime)));
 
+            // start
             app.Start();
 
             await Task.Delay(aLittleTime);
 
+            // stop
             app.Stop();
 
-            var invokesCount = updater.InvokesCount;
-            invokesCount.Should().BeGreaterThan(0);
+            var invokesCount1 = updater.InvokesCount;
+            invokesCount1.Should().BeGreaterThan(0);
 
             await Task.Delay(aLittleTime);
 
-            updater.InvokesCount.Should().Be(invokesCount);
+            updater.InvokesCount.Should().Be(invokesCount1);
+            
+            // one more start
+            app.Start();
+            
+            await Task.Delay(aLittleTime);
+            
+            // stop
+            app.Stop();
+
+            var invokesCount2 = updater.InvokesCount;
+            invokesCount2.Should().BeGreaterThan(invokesCount1);
+
+            await Task.Delay(aLittleTime);
+
+            updater.InvokesCount.Should().Be(invokesCount2);
+            
+            // Dispose
+            app.Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => app.Start());
+        }
+
+        [Fact]
+        public void DisposeWithoutStartWorksProperly()
+        {
+            app.Dispose();
         }
 
         [Fact]

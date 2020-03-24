@@ -12,7 +12,7 @@ namespace EasyRates.RatesProvider.InMemory
         {
             return services
                 .Configure<RatesProviderInMemoryOptions>(configuration)
-                .AddScoped<IRatesProvider, RatesProviderInMemory>();
+                .AddTransient<IRatesProvider, RatesProviderInMemory>();
         }
     }
 }

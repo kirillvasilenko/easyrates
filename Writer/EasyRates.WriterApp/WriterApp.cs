@@ -20,7 +20,7 @@ namespace EasyRates.WriterApp
 
         private CancellationTokenSource cts = new CancellationTokenSource();
         
-        private ManualResetEvent writerStopped = new ManualResetEvent(false);
+        private readonly ManualResetEvent stopped = new ManualResetEvent(true);
 
         private bool disposed;
         
@@ -41,12 +41,17 @@ namespace EasyRates.WriterApp
         public void Start()
         {
             CheckIsntDisposed();
+            stopped.Reset();
+            cts = new CancellationTokenSource();
             Task.Factory.StartNew(WorkCycle);
         }
 
         public void Stop()
         {
-            Dispose();
+            cts?.Cancel();
+            stopped.WaitOne();
+            cts?.Dispose();
+            cts = null;
         }
 
         public void Dispose()
@@ -55,8 +60,7 @@ namespace EasyRates.WriterApp
             {
                 return;
             }
-            cts.Cancel();
-            writerStopped.WaitOne();
+            Stop();
             disposed = true;
         }
 
@@ -85,14 +89,15 @@ namespace EasyRates.WriterApp
                     var now = UtcNow;
                     
                     // should already be started
-                    if (nextMoment < now)
+                    if (nextMoment <= now)
                     {
                         currentMoment = now;
                         continue;
                     }
-                    
+                    // need to wait next moment
                     logger.LogDebug($"Lets sleep {nextMoment - now}");
                     await Task.Delay(nextMoment - now, cts.Token);
+                    currentMoment = nextMoment;
                 }
                 catch (OperationCanceledException)
                 {
@@ -104,7 +109,7 @@ namespace EasyRates.WriterApp
                 }
             }
 
-            writerStopped.Set();
+            stopped.Set();
         }
 
         private DateTime UtcNow => clock.UtcNow.UtcDateTime;
