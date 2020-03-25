@@ -12,6 +12,9 @@ namespace EasyRates.RatesProvider.OpenExchange
             IConfiguration configuration)
         {
             var appId = configuration["AppId"];
+
+            services.AddHealthChecks()
+                .AddCheck<OpenExchangeHealthCheck>("openExchangeHealthCheck");
             
             return services
                 .Configure<OpenExchangeProviderOptions>(configuration)

@@ -62,5 +62,6 @@ namespace EasyRates.RatesProvider.OpenExchange
                 .SelectMany(x => x)
                 .ToArray();
         }
+
     }
 }

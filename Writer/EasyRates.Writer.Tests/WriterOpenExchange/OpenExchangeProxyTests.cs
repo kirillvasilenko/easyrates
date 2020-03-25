@@ -30,7 +30,12 @@ namespace EasyRates.Writer.Tests.WriterOpenExchange
         {
             await Assert.ThrowsAsync<ErrorOnResponseToOpenExchangeException>(
                 async () => await proxy.GetCurrentRates("dich"));
-
+        }
+        
+        [Fact]
+        public async Task GetUsage_Success()
+        {
+            await proxy.GetUsage();
         }
     }
 }

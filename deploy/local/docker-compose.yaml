@@ -10,6 +10,11 @@ services:
     restart: unless-stopped
     ports:
       - 5011:80
+    healthcheck:
+      test: curl --fail http://127.0.0.1/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
     depends_on:
       - db_migrator
     networks:
@@ -24,6 +29,11 @@ services:
     restart: unless-stopped
     ports:
       - 5012:80
+    healthcheck:
+      test: curl --fail http://127.0.0.1/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
     depends_on:
       - db_migrator
     networks:

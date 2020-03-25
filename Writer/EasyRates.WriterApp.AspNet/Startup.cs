@@ -1,8 +1,5 @@
 using System;
-using EasyRates.RatesProvider.InMemory;
-using EasyRates.RatesProvider.OpenExchange;
-using EasyRates.Writer.Ef.Pg;
-using EasyRates.WriterApp.AspNet.HostedServices;
+using EasyRates.Model.Ef.Pg;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace EasyRates.WriterApp.AspNet
 {
@@ -38,6 +34,9 @@ namespace EasyRates.WriterApp.AspNet
 
             services.AddEasyRatesWriterAppAspNet(Config);
             
+            services.AddHealthChecks()
+                .AddDbContextCheck<RatesContext>();
+            
             services.AddProblemDetails(opts =>
             {
                 opts.Map<Exception>(ex => new ExceptionProblemDetails(ex, StatusCodes.Status500InternalServerError));
@@ -63,7 +62,11 @@ namespace EasyRates.WriterApp.AspNet
                     .AllowAnyMethod();
             });
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
+            });
             
             app.UseOpenApi();
             app.UseSwaggerUi3();

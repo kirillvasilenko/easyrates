@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using EasyRates.Model;
 
@@ -34,7 +35,7 @@ namespace EasyRates.Writer.Tests.WriterApp
             }
             return ActualInvokeCase.Response;
         }
-        
+
         public class InvokeCase
         {
             public TimeSpan EmulationTime { get; set; }

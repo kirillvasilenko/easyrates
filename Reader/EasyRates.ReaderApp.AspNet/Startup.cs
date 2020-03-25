@@ -1,13 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using EasyRates.Model;
+using EasyRates.Model.Ef.Pg;
 using EasyRates.Reader.Ef.Pg;
 using EasyRates.Reader.Model;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Internal;
 
 namespace EasyRates.ReaderApp.AspNet
@@ -37,6 +43,9 @@ namespace EasyRates.ReaderApp.AspNet
             services.AddEasyRatesReaderApp();
             services.AddEasyRatesReaderEfPg(Config.GetConnectionString("DefaultConnection"));
             services.AddSingleton<ISystemClock, SystemClock>();
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<RatesContext>();
             
             services.AddProblemDetails(opts =>
             {
@@ -67,7 +76,11 @@ namespace EasyRates.ReaderApp.AspNet
                     .AllowAnyMethod();
             });
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
+            });
             
             app.UseOpenApi();
             app.UseSwaggerUi3();
@@ -90,4 +103,6 @@ namespace EasyRates.ReaderApp.AspNet
             });
         }
     }
+    
+    
 }

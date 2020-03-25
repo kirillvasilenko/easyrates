@@ -11,6 +11,8 @@ namespace EasyRates.RatesProvider.OpenExchange
 
         private const string Latest = "latest.json";
 
+        private const string Usage = "usage.json";
+
         private const string AppIdParam = "app_id";
 
         private const string BaseParam = "base";
@@ -37,6 +39,26 @@ namespace EasyRates.RatesProvider.OpenExchange
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 return JsonConvert.DeserializeObject<ActualRateResponse>(response.Content);
+            }
+            
+            var err = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
+            throw new ErrorOnResponseToOpenExchangeException(err.Status, err.Message,err.Description, response.ResponseUri.ToString());
+        }
+        
+        public async Task<string> GetUsage()
+        {
+            var url = $"{BaseUrl}/{Usage}";
+            
+            var client = new RestClient(url);
+
+            var request = new RestRequest();
+            request.AddHeader("Content-Type", "application/json");
+            request.AddQueryParameter(AppIdParam, appId);
+
+            var response = await client.ExecuteGetAsync(request);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                return response.Content;
             }
             
             var err = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);

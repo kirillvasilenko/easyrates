@@ -27,7 +27,12 @@ namespace EasyRates.Writer.Tests.WriterOpenExchange
             }
             return invokeCase.Response;
         }
-        
+
+        public Task<string> GetUsage()
+        {
+            return Task.FromResult("hello");
+        }
+
         public class InvokeCase
         {
             public string From { get; set; }
