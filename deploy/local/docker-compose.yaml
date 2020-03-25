@@ -1,0 +1,52 @@
+version: "3"
+services:
+
+  reader:
+    image: easyrates-reader
+    container_name: easyrates-reader
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=${EasyRatesServer};port=${EasyRatesPort};database=${EasyRatesDb};user id=${EasyRatesUser};password=${EasyRatesUserPassword};
+    restart: unless-stopped
+    ports:
+      - 5011:80
+    depends_on:
+      - db_migrator
+    networks:
+      - easyrates
+
+  writer:
+    image: easyrates-writer
+    container_name: easyrates-writer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=${EasyRatesServer};port=${EasyRatesPort};database=${EasyRatesDb};user id=${EasyRatesUser};password=${EasyRatesUserPassword};
+    restart: unless-stopped
+    ports:
+      - 5012:80
+    depends_on:
+      - db_migrator
+    networks:
+      - easyrates
+
+  db_migrator:
+    image: easyrates-migrator
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - EasyRates__Server=${EasyRatesServer}
+      - EasyRates__Port=${EasyRatesPort}
+      - EasyRates__Creator=${EasyRatesCreator}
+      - EasyRates__CreatorPassword=${EasyRatesCreatorPassword}
+      - EasyRates__CreatorDb=${EasyRatesCreatorDb}
+      - EasyRates__Migrator=${EasyRatesMigrator}
+      - EasyRates__MigratorPassword=${EasyRatesMigratorPassword}
+      - EasyRates__MigratorDb=${EasyRatesDb}
+      - EasyRates__CreateDb=true
+      - EasyRates__ShowPII=true
+    networks:
+      - easyrates
+
+  
+networks:
+  easyrates:
+    driver: bridge

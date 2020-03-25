@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyRates.Model.Ef.Pg
 {
@@ -17,11 +18,19 @@ namespace EasyRates.Model.Ef.Pg
         {
             base.OnModelCreating(builder);
             
-            //builder.RemovePluralizingTableNameConvention();
-
-            builder.Entity<CurrencyRate>()
-                .Ignore(r => r.Key)
-                .HasKey(o => new {From = o.CurrencyFrom, To = o.CurrencyTo});
+            builder
+                .Entity<CurrencyRate>(x =>
+                {
+                    x.Ignore(r => r.Key)
+                        .HasKey(o => new {From = o.CurrencyFrom, To = o.CurrencyTo});
+                    
+                    x.Property(e => e.ExpirationTime)
+                        .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+                    x.Property(e => e.OriginalPublishedTime)
+                        .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+                    x.Property(e => e.TimeOfReceipt)
+                        .HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+                });
         }
 
     }
