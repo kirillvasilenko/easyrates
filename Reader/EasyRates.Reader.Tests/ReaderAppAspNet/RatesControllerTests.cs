@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using EasyRates.ReaderApp;
 using EasyRates.ReaderApp.AspNet.Controllers;
+using EasyRates.ReaderApp.AspNet.Controllers.v1;
 using EasyRates.ReaderApp.Dto;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;

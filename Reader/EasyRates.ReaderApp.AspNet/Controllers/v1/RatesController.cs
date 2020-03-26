@@ -3,12 +3,12 @@ using EasyRates.ReaderApp.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyRates.ReaderApp.AspNet.Controllers
+namespace EasyRates.ReaderApp.AspNet.Controllers.v1
 {
     /// <summary>
     /// Rates service.
     /// </summary>
-    [Route("rates")]
+    [Route("api/v{version:apiVersion}/rates")]
     [ApiController]
     public class RatesController : ControllerBase
     {

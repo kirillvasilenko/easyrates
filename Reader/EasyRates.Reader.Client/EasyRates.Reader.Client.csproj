@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <GenerateCode>True</GenerateCode>
+
+        <PackageId>EasyRates.Reader.Client</PackageId>
+        <Authors>Kirill Amurskiy</Authors>
+        <Company>Amursoft</Company>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="NSwag.MSBuild" Version="13.3.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <Target Name="NSwag" BeforeTargets="PrepareForBuild" Condition="'$(GenerateCode)'=='True' ">
+        <Exec Command="$(NSwagExe_Core31) run v1.nswag.json /variables:Configuration=$(Configuration)" />
+        <Exec Command="$(NSwagExe_Core31) run v2.nswag.json /variables:Configuration=$(Configuration)" />
+    </Target>
+
+</Project>
