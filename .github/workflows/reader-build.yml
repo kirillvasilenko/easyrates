@@ -1,11 +1,6 @@
 name: reader-build
 
 on:
-  pull_request:
-    paths:
-      - "src/Model/**"
-      - "src/Reader/**"
-      - ".github/workflows/reader-build.yml"
   push:
     branches-ignore: 
       - master

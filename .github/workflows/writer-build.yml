@@ -1,11 +1,6 @@
 name: writer-build
 
 on:
-  pull_request:
-    paths:
-      - "src/Model/**"
-      - "src/Writer/**"
-      - ".github/workflows/writer-build.yml"
   push:
     branches-ignore: 
       - master
