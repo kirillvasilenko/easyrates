@@ -1,0 +1,63 @@
+name: reader-ci
+
+on:
+  pull_request:
+    paths:
+      - "src/Model/**"
+      - "src/Reader/**"
+      - ".github/workflows/reader-build.yml"
+  push:
+    branches-ignore: 
+      - master
+    paths:
+      - "src/Model/**"
+      - "src/Reader/**"
+      - ".github/workflows/reader-build.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Build
+      run: dotnet build --configuration Release src/EasyRates.sln
+    - name: Publish local
+      run: |
+        dotnet publish --no-build --configuration Release src/Reader/EasyRates.ReaderApp.AspNet
+        dotnet publish --no-build --configuration Release src/Reader/EasyRates.Reader.Tests
+        dotnet publish --no-build --configuration Release src/Model/EasyRates.Model.Tests
+    - name: Prepare artifacts
+      run: |
+        mkdir -p artifacts/reader
+        mkdir -p artifacts/reader-tests
+        mkdir -p artifacts/model-tests
+        cp -r src/Reader/EasyRates.ReaderApp.AspNet/bin artifacts/reader
+        cp src/Reader/EasyRates.ReaderApp.AspNet/Dockerfile artifacts/reader
+        cp -r src/Reader/EasyRates.Reader.Tests/bin/Release/netcoreapp3.1/publish artifacts/reader-tests
+        cp -r src/Model/EasyRates.Model.Tests/bin/Release/netcoreapp3.1/publish artifacts/model-tests
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v1
+      with:
+        name: artifacts
+        path: artifacts
+  #test:
+  #  runs-on: ${{ matrix.operating-system }}
+  #  strategy:
+  #    matrix:
+  #      operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #  - name: Setup .NET Core
+  #    uses: actions/setup-dotnet@v1
+  #    with:
+  #      dotnet-version: 3.1.102
+  #  - name: Build
+  #    run: dotnet build --configuration Release src/EasyRates.sln
+  #  - name: Test
+  #    run: |
+  #      dotnet test --configuration Release src/Model/EasyRates.Model.Tests/EasyRates.Model.Tests.csproj
+  #      dotnet test --configuration Release src/Reader/EasyRates.Reader.Tests/EasyRates.Reader.Tests.csproj
