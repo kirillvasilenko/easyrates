@@ -79,8 +79,8 @@ jobs:
         name: tests
     - name: Tests
       run: |
-        dotnet test tests/model/$MODEL_TESTS_DLL
-        dotnet test tests/$SVC_NAME/$SVC_TESTS_DLL
+        dotnet test tests/model/${{ env.MODEL_TESTS_DLL }}
+        dotnet test tests/$SVC_NAME/${{ env.SVC_TESTS_DLL }}
   
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
