@@ -36,7 +36,7 @@ namespace EasyRates.Reader.Tests.Reader
         public void Test1()
         {
             var result = Tmp1.Get() + Tmp2.Get();
-            Assert.Equal(6, result);
+            Assert.Equal(5, result);
         }
         
         [Fact]
