@@ -1,18 +1,11 @@
 name: reader-ci
 
 on:
-  pull_request:
-    paths:
-      - "src/Model/**"
-      - "src/Reader/**"
-      - ".github/workflows/reader-build.yml"
   push:
-    branches-ignore: 
-      - master
     paths:
       - "src/Model/**"
       - "src/Reader/**"
-      - ".github/workflows/reader-build.yml"
+      - ".github/workflows/reader-ci.yml"
 
 jobs:
   build:
