@@ -31,7 +31,7 @@ namespace EasyRates.Reader.Tests.Reader
             clock.Setup(x => x.UtcNow).Returns(currentTime);
             reader = new RatesReaderWithCache(repo.Object, cache.Object, clock.Object);
         }
-
+        
         [Fact]
         public async Task GetRate_TakesFromCache_IfCacheHasIt()
         {
