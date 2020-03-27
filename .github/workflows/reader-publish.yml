@@ -6,17 +6,20 @@ env:
   VERSION_TAG_PREFIX: reader/
 
 on:
-  push:
-    branches:
+  pull_request:
+    types:
+      - closed
+    branches: 
       - master
     paths:
       - "src/Model/**"
       - "src/Reader/**"
-      - ".github/workflows/reader-publish.yml"
+      - ".github/workflows/reader-build.yml"
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged
     steps:
     - uses: actions/checkout@v2
     - run: |

@@ -7,6 +7,8 @@ on:
       - "src/Writer/**"
       - ".github/workflows/writer-build.yml"
   push:
+    branches-ignore: 
+      - master
     paths:
       - "src/Model/**"
       - "src/Writer/**"
