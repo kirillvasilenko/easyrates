@@ -1,9 +1,16 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using Amursoft.AspNetCore.TestAuthentication;
 using EasyRates.Model;
 using EasyRates.Model.Ef.Pg;
 using EasyRates.Reader.Ef.Pg;
 using EasyRates.Reader.Model;
 using Hellang.Middleware.ProblemDetails;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -12,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Versioning.Conventions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EasyRates.ReaderApp.AspNet
 {
@@ -32,6 +40,8 @@ namespace EasyRates.ReaderApp.AspNet
             {
                 option.LowercaseUrls = true;
             });
+            ConfigureAuthentication(services);
+            ConfigureAuthorization(services);
             
             ConfigureSwagger(services);
 
@@ -87,6 +97,9 @@ namespace EasyRates.ReaderApp.AspNet
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
+            
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -121,16 +134,68 @@ namespace EasyRates.ReaderApp.AspNet
                         doc.Info.Title = $"{Program.AppName} API";
                     };
                 });
-
-            /*services.AddOpenApiDocument(config =>
+        }
+        
+        private void ConfigureAuthentication(IServiceCollection services)
+        {
+            if (Config.GetSection("Auth").GetValue("UseTestAuth", false))
             {
-                
-                /*config.OperationProcessors.Add(new OperationProcessor(ctx =>
+                services.AddAuthentication(options =>
+                    {
+                        options.DefaultAuthenticateScheme = TestAuth.SchemeName;
+                        options.DefaultChallengeScheme = TestAuth.SchemeName;
+                    })
+                    .AddTestAuth(opts =>
+                    {
+                        opts.Identity.AddClaim(new Claim(JwtClaimTypes.Scope, "easyrate.reader.read"));
+                        opts.Identity.AddClaim(new Claim(JwtClaimTypes.Scope, "easyrate.reader.admin"));
+                    });
+                return;
+            }
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ctx.OperationDescription.Operation.OperationId = ctx.MethodInfo.Name;
-                    return true;
-                }));#1#
-            });*/
+                    ValidIssuer = Config["Auth:Issuer"],
+                        
+                    ValidAudience = Config["Auth:Audience"],
+                        
+                    ClockSkew = TimeSpan.FromSeconds(0),
+ 
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.ASCII.GetBytes(
+                            Config[$"Auth:Secret"])),
+                                
+                    NameClaimType = JwtClaimTypes.Subject,
+                    RoleClaimType = JwtClaimTypes.Role,
+                };
+                var tokenValidator = options.SecurityTokenValidators.OfType<JwtSecurityTokenHandler>().First();
+                tokenValidator.MapInboundClaims = false;
+            });
+        }
+
+        private void ConfigureAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireClaim(JwtClaimTypes.Role, "Admin");
+                    policy.RequireClaim(JwtClaimTypes.Scope, "easyrate.reader.admin");
+                });
+
+                options.AddPolicy("Client", policy =>
+                {
+                    policy.RequireClaim(JwtClaimTypes.Role, "Client", "Admin");
+                    policy.RequireClaim(JwtClaimTypes.Scope, "easyrate.reader.read");
+                });
+            });
         }
     }
 }

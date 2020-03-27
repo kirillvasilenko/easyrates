@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using EasyRates.ReaderApp.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,6 +37,7 @@ namespace EasyRates.ReaderApp.AspNet.Controllers.v1
         /// 2. Invalid currency name.</response>
         /// <response code="500">Internal server error.</response>
         [HttpGet("{from}/{to}")]
+        [Authorize("Client")]
         [ProducesResponseType(typeof(RatesResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -58,6 +60,7 @@ namespace EasyRates.ReaderApp.AspNet.Controllers.v1
         /// 2. Invalid currency name.</response>
         /// <response code="500">Internal server error.</response>
         [HttpGet("{from}")]
+        [Authorize("Client")]
         [ProducesResponseType(typeof(RatesResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
