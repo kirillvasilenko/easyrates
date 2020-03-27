@@ -59,8 +59,8 @@ jobs:
     - name: Upload service
       uses: actions/upload-artifact@v1
       with:
-        name: "$SVC_NAME"
-        path: "artifacts/$SVC_NAME"
+        name: ${{ env.$SVC_NAME }}
+        path: artifacts/${{ env.$SVC_NAME }}
   
   test:
     needs: build
