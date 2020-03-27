@@ -101,7 +101,7 @@ namespace EasyRates.Writer.Tests.WriterApp
 
             app.Stop();
 
-            updater.InvokesCount.Should().BeInRange(3, 4);
+            updater.InvokesCount.Should().BeInRange(3, 5);
         }
 
         [Fact]
