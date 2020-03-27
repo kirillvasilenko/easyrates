@@ -30,8 +30,8 @@ jobs:
         mkdir -p artifacts/tests/model
         cp -r src/Reader/EasyRates.ReaderApp.AspNet/bin artifacts/reader
         cp src/Reader/EasyRates.ReaderApp.AspNet/Dockerfile artifacts/reader
-        cp -r src/Reader/EasyRates.Reader.Tests/bin/Release/netcoreapp3.1/publish artifacts/tests/reader
-        cp -r src/Model/EasyRates.Model.Tests/bin/Release/netcoreapp3.1/publish artifacts/tests/model
+        cp -r src/Reader/EasyRates.Reader.Tests/bin/Release/netcoreapp3.1/publish/* artifacts/tests/reader
+        cp -r src/Model/EasyRates.Model.Tests/bin/Release/netcoreapp3.1/publish/* artifacts/tests/model
     - name: Upload tests
       uses: actions/upload-artifact@v1
       with:
@@ -60,9 +60,5 @@ jobs:
         name: tests
     - name: Tests
       run: |
-        ls
-        ls tests
-        ls tests/model
-        ls tests/reader
         dotnet test tests/model/EasyRates.Model.Tests.dll
         dotnet test tests/reader/EasyRates.Reader.Tests.dll
