@@ -6,7 +6,8 @@ env:
   VERSION_TAG_PREFIX: reader/
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - master
     paths:
