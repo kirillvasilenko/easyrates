@@ -4,7 +4,7 @@ namespace EasyRates.Reader.Tests.Reader
     {
         public static int Get()
         {
-            return 3;
+            return 2;
         }
     }
 }
