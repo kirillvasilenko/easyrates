@@ -41,7 +41,7 @@ namespace EasyRates.ReaderApp.AspNet
                 option.LowercaseUrls = true;
             });
             ConfigureAuthentication(services);
-            ConfigureAuthorization(services);
+            ConfigureAuthorization3(services);
             
             ConfigureSwagger(services);
 
@@ -180,7 +180,7 @@ namespace EasyRates.ReaderApp.AspNet
             });
         }
 
-        private void ConfigureAuthorization(IServiceCollection services)
+        private void ConfigureAuthorization3(IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
