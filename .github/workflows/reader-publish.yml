@@ -1,9 +1,9 @@
 name: reader-publish
 
 env:
-  SERVICE_FOLDER: scr/Reader/EasyRates.ReaderApp.AspNet
+  SERVICE_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
   SERVICE_NAME: easyrate-reader
-  VERSION_TAG_PREFIX: reader
+  VERSION_TAG_PREFIX: reader/
 
 on:
   pull_request:
@@ -12,30 +12,38 @@ on:
     paths:
       - "src/Model/**"
       - "src/Reader/**"
-      - ".github/workflows/reader-build.yml"
+      - ".github/workflows/reader-publish.yml"
   push:
     branches:
       - master
     paths:
       - "src/Model/**"
       - "src/Reader/**"
-      - ".github/workflows/reader-build.yml"
+      - ".github/workflows/reader-publish.yml"
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - run: |
+        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        git fetch --prune --unshallow
+    - name: extract service version
+      run: |
+        SVC_VERSION=$(git describe --match "$VERSION_TAG_PREFIX*" --abbrev=0)
+        SVC_VERSION=$(echo $SVC_VERSION | cut -d'/' -f 2)
+        SVC_VERSION="$SVC_VERSION.$GITHUB_RUN_NUMBER"
+        echo $SVC_VERSION
+        echo "::set-env name=SVC_VERSION::$SVC_VERSION"      
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.102
     - name: local publish
-      run: dotnet publish -c Release ${SERVICE_FOLDER}
-    - name: extract service version
       run: |
-        SVC_VERSION=$(git describe --match "$VERSION_TAG_PREFIX*")
-        SVC_VERSION=$(echo $SVC_VERSION | cut -d'/' -f 2)
+        echo $SVC_VERSION 
+        dotnet publish -c Release ${SERVICE_FOLDER}
     - name: build docker image
       run: docker build  -t "${SERVICE_NAME}" -f "${SERVICE_FOLDER}/Dockerfile" "${SERVICE_FOLDER}"
     - name: login in docker.pkg.github.com
