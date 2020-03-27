@@ -189,6 +189,7 @@ namespace EasyRates.ReaderApp.AspNet
                     policy.RequireClaim(JwtClaimTypes.Role, "Admin");
                     policy.RequireClaim(JwtClaimTypes.Scope, "easyrate.reader.admin");
                 });
+                
                 options.AddPolicy("Client", policy =>
                 {
                     policy.RequireClaim(JwtClaimTypes.Role, "Client", "Admin");
