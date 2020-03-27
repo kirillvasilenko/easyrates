@@ -8,9 +8,12 @@ on:
       - ".github/workflows/reader-ci.yml"
 
 env:
-  SERVICE_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
-  SERVICE_NAME: easyrate-reader
-  VERSION_TAG_PREFIX: reader/
+  SVC_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
+  SVC_TESTS_FOLDER: src/Reader/EasyRates.Reader.Tests
+  SVC_TESTS_DLL: EasyRates.Reader.Tests.dll
+  MODEL_TESTS_FOLDER: src/Model/EasyRates.Model.Tests
+  MODEL_TESTS_DLL: EasyRates.Model.Tests.dll
+  SVC_NAME: reader
 
 jobs:
   build:
@@ -28,21 +31,23 @@ jobs:
       run: dotnet build --configuration Release src/EasyRates.sln
     - name: Publish local
       run: |
-        dotnet publish --no-build --configuration Release src/Reader/EasyRates.ReaderApp.AspNet
-        dotnet publish --no-build --configuration Release src/Reader/EasyRates.Reader.Tests
-        dotnet publish --no-build --configuration Release src/Model/EasyRates.Model.Tests
+        dotnet publish --no-build --configuration Release $SVC_FOLDER
+        dotnet publish --no-build --configuration Release $SVC_TESTS_FOLDER
+        dotnet publish --no-build --configuration Release $MODEL_TESTS_FOLDER
     - name: Prepare artifacts
       run: |
         mkdir -p artifacts/reader
-        mkdir -p artifacts/tests/reader
+        cp -r $SVC_FOLDER/bin artifacts/$SVC_NAME
+        cp $SVC_FOLDER/Dockerfile artifacts/$SVC_NAME
+        
+        mkdir -p artifacts/tests/$SVC_NAME
+        cp -r $SVC_TESTS_FOLDER/bin/Release/netcoreapp3.1/publish/* artifacts/tests/$SVC_NAME
+        
         mkdir -p artifacts/tests/model
-        cp -r src/Reader/EasyRates.ReaderApp.AspNet/bin artifacts/reader
-        cp src/Reader/EasyRates.ReaderApp.AspNet/Dockerfile artifacts/reader
-        cp -r src/Reader/EasyRates.Reader.Tests/bin/Release/netcoreapp3.1/publish/* artifacts/tests/reader
-        cp -r src/Model/EasyRates.Model.Tests/bin/Release/netcoreapp3.1/publish/* artifacts/tests/model
+        cp -r $MODEL_TESTS_FOLDER/bin/Release/netcoreapp3.1/publish/* artifacts/tests/model
     - name: Extract service version
       run: |
-        SVC_VERSION=$(git describe --match "$VERSION_TAG_PREFIX*" --abbrev=0)
+        SVC_VERSION=$(git describe --match "$SVC_NAME/*" --abbrev=0)
         SVC_VERSION=$(echo $SVC_VERSION | cut -d'/' -f 2)
         SVC_VERSION="$SVC_VERSION.$GITHUB_RUN_NUMBER"
         echo "SVC_VERSION=$SVC_VERSION" >> artifacts/reader/version.txt
@@ -54,8 +59,8 @@ jobs:
     - name: Upload service
       uses: actions/upload-artifact@v1
       with:
-        name: reader
-        path: artifacts/reader
+        name: $SVC_NAME
+        path: artifacts/$SVC_NAME
   
   test:
     needs: build
@@ -74,8 +79,8 @@ jobs:
         name: tests
     - name: Tests
       run: |
-        dotnet test tests/model/EasyRates.Model.Tests.dll
-        dotnet test tests/reader/EasyRates.Reader.Tests.dll
+        dotnet test tests/model/$MODEL_TESTS_DLL
+        dotnet test tests/$SVC_NAME/$SVC_TESTS_DLL
   
   publish:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -92,14 +97,14 @@ jobs:
         echo $SVC_VERSION
         echo "::set-env name=SVC_VERSION::$SVC_VERSION"
     - name: build docker image
-      run: docker build  -t "${SERVICE_NAME}" -f "reader/Dockerfile" "reader"
+      run: docker build  -t "easyrates-${SVC_NAME}" -f "reader/Dockerfile" "reader"
     - name: login in docker.pkg.github.com
       run: docker login -u ${GITHUB_ACTOR} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
     - name: tag docker images
       run: |
-        docker tag "${SERVICE_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${SERVICE_NAME}:latest
-        docker tag "${SERVICE_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${SERVICE_NAME}:$SVC_VERSION
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:latest
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:$SVC_VERSION
     - name: publish to docker.pkg.github.com
       run: |
-        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${SERVICE_NAME}:latest
-        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/${SERVICE_NAME}:$SVC_VERSION
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:latest
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:$SVC_VERSION
