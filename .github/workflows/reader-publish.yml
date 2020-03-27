@@ -6,10 +6,8 @@ env:
   VERSION_TAG_PREFIX: reader/
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches: 
+  push:
+    branches-ignore:
       - master
     paths:
       - "src/Model/**"
