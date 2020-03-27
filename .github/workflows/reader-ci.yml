@@ -60,5 +60,5 @@ jobs:
         name: tests
     - name: Tests
       run: |
-        dotnet test tests/model/EasyRates.Model.Tests.dll
-        dotnet test tests/reader/EasyRates.Reader.Tests.dll
+        dotnet test tests/tests/model/EasyRates.Model.Tests.dll
+        dotnet test tests/tests/reader/EasyRates.Reader.Tests.dll
