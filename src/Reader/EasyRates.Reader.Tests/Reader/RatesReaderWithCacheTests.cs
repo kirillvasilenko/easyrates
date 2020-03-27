@@ -33,6 +33,13 @@ namespace EasyRates.Reader.Tests.Reader
         }
 
         [Fact]
+        public void Test1()
+        {
+            var result = Tmp1.Get() + Tmp2.Get();
+            Assert.Equal(6, result);
+        }
+        
+        [Fact]
         public async Task GetRate_TakesFromCache_IfCacheHasIt()
         {
             var from = fixture.Create<string>();
