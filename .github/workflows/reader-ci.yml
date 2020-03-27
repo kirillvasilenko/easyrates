@@ -62,8 +62,7 @@ jobs:
       run: |
         ls
         ls tests
-        ls tests/tests
-        ls tests/tests/model
-        ls tests/tests/reader
-        dotnet test tests/tests/model/EasyRates.Model.Tests.dll
-        dotnet test tests/tests/reader/EasyRates.Reader.Tests.dll
+        ls tests/model
+        ls tests/reader
+        dotnet test tests/model/EasyRates.Model.Tests.dll
+        dotnet test tests/reader/EasyRates.Reader.Tests.dll
