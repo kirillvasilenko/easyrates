@@ -7,9 +7,8 @@ env:
 
 on:
   pull_request:
-    types:
-      - closed
-    branches: 
+    types: [closed]
+    branches:
       - master
     paths:
       - "src/Model/**"
