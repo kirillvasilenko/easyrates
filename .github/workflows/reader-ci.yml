@@ -102,9 +102,9 @@ jobs:
       run: docker login -u ${GITHUB_ACTOR} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
     - name: tag docker images
       run: |
-        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:latest
-        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:$SVC_VERSION
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
     - name: publish to docker.pkg.github.com
       run: |
-        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:latest
-        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/$easyrates-{SVC_NAME}:$SVC_VERSION
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
