@@ -1,0 +1,115 @@
+name: reader-ci
+
+on:
+  pull_request:
+    paths:
+      - "src/Model/**"
+      - "src/Reader/**"
+      - ".github/workflows/reader-build.yml"
+  push:
+    paths:
+      - "src/Model/**"
+      - "src/Reader/**"
+      - ".github/workflows/reader-ci.yml"
+
+env:
+  SVC_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
+  SVC_TESTS_FOLDER: src/Reader/EasyRates.Reader.Tests
+  SVC_TESTS_DLL: EasyRates.Reader.Tests.dll
+  MODEL_TESTS_FOLDER: src/Model/EasyRates.Model.Tests
+  MODEL_TESTS_DLL: EasyRates.Model.Tests.dll
+  SVC_NAME: reader
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        git fetch --prune --unshallow
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Build
+      run: dotnet build --configuration Release src/EasyRates.sln
+    - name: Publish local
+      run: |
+        dotnet publish --no-build --configuration Release $SVC_FOLDER
+        dotnet publish --no-build --configuration Release $SVC_TESTS_FOLDER
+        dotnet publish --no-build --configuration Release $MODEL_TESTS_FOLDER
+    - name: Prepare artifacts
+      run: |
+        mkdir -p artifacts/reader
+        cp -r $SVC_FOLDER/bin artifacts/$SVC_NAME
+        cp $SVC_FOLDER/Dockerfile artifacts/$SVC_NAME
+        
+        mkdir -p artifacts/tests/$SVC_NAME
+        cp -r $SVC_TESTS_FOLDER/bin/Release/netcoreapp3.1/publish/* artifacts/tests/$SVC_NAME
+        
+        mkdir -p artifacts/tests/model
+        cp -r $MODEL_TESTS_FOLDER/bin/Release/netcoreapp3.1/publish/* artifacts/tests/model
+    - name: Extract service version
+      run: |
+        SVC_VERSION=$(git describe --match "$SVC_NAME/*" --abbrev=0)
+        SVC_VERSION=$(echo $SVC_VERSION | cut -d'/' -f 2)
+        SVC_VERSION="$SVC_VERSION.$GITHUB_RUN_NUMBER"
+        echo "SVC_VERSION=$SVC_VERSION" >> artifacts/reader/version.txt
+    - name: Upload tests
+      uses: actions/upload-artifact@v1
+      with:
+        name: tests
+        path: artifacts/tests
+    - name: Upload service
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{ env.SVC_NAME }}
+        path: artifacts/${{ env.SVC_NAME }}
+  
+  test:
+    needs: build
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Download tests
+      uses: actions/download-artifact@v1
+      with:
+        name: tests
+    - name: Tests
+      run: |
+        dotnet test tests/model/${{ env.MODEL_TESTS_DLL }}
+        dotnet test tests/${{ env.SVC_NAME }}/${{ env.SVC_TESTS_DLL }}
+  
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v1
+      with:
+        name: reader
+    - name: Read version
+      run: |
+        source reader/version.txt
+        echo $SVC_VERSION
+        echo "::set-env name=SVC_VERSION::$SVC_VERSION"
+    - name: build docker image
+      run: docker build  -t "easyrates-${SVC_NAME}" -f "reader/Dockerfile" "reader"
+    - name: login in docker.pkg.github.com
+      run: docker login -u ${GITHUB_ACTOR} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
+    - name: tag docker images
+      run: |
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
+    - name: publish to docker.pkg.github.com
+      run: |
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
