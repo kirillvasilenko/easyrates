@@ -26,31 +26,37 @@ jobs:
     - name: Prepare artifacts
       run: |
         mkdir -p artifacts/reader
-        mkdir -p artifacts/reader-tests
-        mkdir -p artifacts/model-tests
+        mkdir -p artifacts/tests/reader
+        mkdir -p artifacts/tests/model
         cp -r src/Reader/EasyRates.ReaderApp.AspNet/bin artifacts/reader
         cp src/Reader/EasyRates.ReaderApp.AspNet/Dockerfile artifacts/reader
-        cp -r src/Reader/EasyRates.Reader.Tests/bin/Release/netcoreapp3.1/publish artifacts/reader-tests
-        cp -r src/Model/EasyRates.Model.Tests/bin/Release/netcoreapp3.1/publish artifacts/model-tests
-    - name: Upload math result for job 1
+        cp -r src/Reader/EasyRates.Reader.Tests/bin/Release/netcoreapp3.1/publish artifacts/tests/reader
+        cp -r src/Model/EasyRates.Model.Tests/bin/Release/netcoreapp3.1/publish artifacts/tests/model
+    - name: Upload tests
       uses: actions/upload-artifact@v1
       with:
-        name: artifacts
-        path: artifacts
-  #test:
-  #  runs-on: ${{ matrix.operating-system }}
-  #  strategy:
-  #    matrix:
-  #      operating-system: [ubuntu-latest, windows-latest, macOS-latest]
-  #  steps:
-  #  - uses: actions/checkout@v2
-  #  - name: Setup .NET Core
-  #    uses: actions/setup-dotnet@v1
-  #    with:
-  #      dotnet-version: 3.1.102
-  #  - name: Build
-  #    run: dotnet build --configuration Release src/EasyRates.sln
-  #  - name: Test
-  #    run: |
-  #      dotnet test --configuration Release src/Model/EasyRates.Model.Tests/EasyRates.Model.Tests.csproj
-  #      dotnet test --configuration Release src/Reader/EasyRates.Reader.Tests/EasyRates.Reader.Tests.csproj
+        name: tests
+        path: artifacts/tests
+    - name: Upload service
+      uses: actions/upload-artifact@v1
+      with:
+        name: reader
+        path: artifacts/reader
+  test:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Download tests
+      uses: actions/download-artifact@v1
+      with:
+        name: tests
+    - name: Tests
+      run: |
+        dotnet test tests/model/EasyRates.Model.Tests.dll
+        dotnet test tests/reader/EasyRates.Reader.Tests.dll
