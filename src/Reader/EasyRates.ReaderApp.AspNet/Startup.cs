@@ -179,7 +179,7 @@ namespace EasyRates.ReaderApp.AspNet
                 tokenValidator.MapInboundClaims = false;
             });
         }
-
+breaking changes
         private void ConfigureAuthorization(IServiceCollection services)
         {
             services.AddAuthorization(options =>
