@@ -6,13 +6,6 @@ env:
   VERSION_TAG_PREFIX: reader/
 
 on:
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "src/Model/**"
-      - "src/Reader/**"
-      - ".github/workflows/reader-publish.yml"
   push:
     branches:
       - master
