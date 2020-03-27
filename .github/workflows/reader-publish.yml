@@ -41,9 +41,7 @@ jobs:
       with:
         dotnet-version: 3.1.102
     - name: local publish
-      run: |
-        echo $SVC_VERSION 
-        dotnet publish -c Release ${SERVICE_FOLDER}
+      run: dotnet publish -c Release ${SERVICE_FOLDER}
     - name: build docker image
       run: docker build  -t "${SERVICE_NAME}" -f "${SERVICE_FOLDER}/Dockerfile" "${SERVICE_FOLDER}"
     - name: login in docker.pkg.github.com
