@@ -1,0 +1,20 @@
+{
+  "name": "@kirillamurskiy/easyrates-reader-client",
+  "author": "Kirill Amurskiy",
+  "license": "ISC",
+  "description": "",
+  "repository": "git://github.com/kirillamurskiy/easyrates.git",
+  "files": [
+    "Client.v1.g.js",
+    "Client.v1.g.d.ts",
+    "Client.v2.g.js",
+    "Client.v2.g.d.ts"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  },
+  "version": "0.2.0"
+}
