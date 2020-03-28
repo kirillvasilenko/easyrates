@@ -36,7 +36,7 @@ jobs:
         echo $SVC_VERSION
         echo "::set-env name=SVC_VERSION::$SVC_VERSION"
     - name: Build docker image
-      run: docker build  -t "easyrates-${SVC_NAME}" -f "${SVC_NAME}/Dockerfile" "${SVC_NAME}"
+      run: docker build  -t "easyrates-${SVC_NAME}" -f "${SVC_FOLDER}/Dockerfile" "${SVC_FOLDER}"
     - name: Login in docker.pkg.github.com
       run: docker login -u ${GITHUB_ACTOR} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
     - name: Tag docker images
