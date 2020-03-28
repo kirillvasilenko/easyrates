@@ -137,7 +137,7 @@
     },
     "openApiToTypeScriptClient": {
       "className": "{controller}ClientV2",
-      "output": "Client.v2.g.ts",
+      "output": "ClientTs/Client.v2.g.ts",
       "moduleName": "",
       "namespace": "",
       "typeScriptVersion": 2.7,
