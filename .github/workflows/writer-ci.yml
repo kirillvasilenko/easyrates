@@ -13,8 +13,8 @@ on:
       - ".github/workflows/writer-ci.yml"
 
 env:
-  SVC_FOLDER: src/Reader/EasyRates.WriterApp.AspNet
-  SVC_TESTS_FOLDER: src/Reader/EasyRates.Writer.Tests
+  SVC_FOLDER: src/Writer/EasyRates.WriterApp.AspNet
+  SVC_TESTS_FOLDER: src/Writer/EasyRates.Writer.Tests
   SVC_TESTS_DLL: EasyRates.Writer.Tests.dll
   MODEL_TESTS_FOLDER: src/Model/EasyRates.Model.Tests
   MODEL_TESTS_DLL: EasyRates.Model.Tests.dll
@@ -25,7 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: |
+    - name: Get repository tags
+      run: |
         git fetch --depth=1 origin +refs/tags/*:refs/tags/*
         git fetch --prune --unshallow
     - name: Setup .NET Core
@@ -41,7 +42,7 @@ jobs:
         dotnet publish --no-build --configuration Release $MODEL_TESTS_FOLDER
     - name: Prepare artifacts
       run: |
-        mkdir -p artifacts/reader
+        mkdir -p artifacts/$SVC_NAME
         cp -r $SVC_FOLDER/bin artifacts/$SVC_NAME
         cp $SVC_FOLDER/Dockerfile artifacts/$SVC_NAME
         
@@ -55,7 +56,7 @@ jobs:
         SVC_VERSION=$(git describe --match "$SVC_NAME/*" --abbrev=0)
         SVC_VERSION=$(echo $SVC_VERSION | cut -d'/' -f 2)
         SVC_VERSION="$SVC_VERSION.$GITHUB_RUN_NUMBER"
-        echo "SVC_VERSION=$SVC_VERSION" >> artifacts/reader/version.txt
+        echo "SVC_VERSION=$SVC_VERSION" >> artifacts/$SVC_NAME/version.txt
     - name: Upload tests
       uses: actions/upload-artifact@v1
       with:
@@ -95,21 +96,24 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v1
       with:
-        name: reader
+        name: ${{ env.SVC_NAME }}
     - name: Read version
       run: |
-        source reader/version.txt
+        source $SVC_NAME/version.txt
         echo $SVC_VERSION
         echo "::set-env name=SVC_VERSION::$SVC_VERSION"
-    - name: build docker image
-      run: docker build  -t "easyrates-${SVC_NAME}" -f "reader/Dockerfile" "reader"
-    - name: login in docker.pkg.github.com
+    - name: Build docker image
+      run: |
+        ls $SVC_NAME
+        cat $SVC_NAME/Dockerfile
+        docker build -t "easyrates-${SVC_NAME}" -f "${SVC_NAME}/Dockerfile" "${SVC_NAME}"
+    - name: Login in docker.pkg.github.com
       run: docker login -u ${GITHUB_ACTOR} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
-    - name: tag docker images
+    - name: Tag docker images
       run: |
         docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
         docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
-    - name: publish to docker.pkg.github.com
+    - name: Publish to docker.pkg.github.com
       run: |
         docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
         docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION

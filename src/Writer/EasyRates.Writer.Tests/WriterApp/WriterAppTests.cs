@@ -32,6 +32,7 @@ namespace EasyRates.Writer.Tests.WriterApp
             {
                 new RatesUpdaterMock.InvokeCase(),
                 new RatesUpdaterMock.InvokeCase(),
+                new RatesUpdaterMock.InvokeCase(),
                 new RatesUpdaterMock.InvokeCase()
             };
             updater = new RatesUpdaterMock(cases);
@@ -101,7 +102,7 @@ namespace EasyRates.Writer.Tests.WriterApp
 
             app.Stop();
 
-            updater.InvokesCount.Should().BeInRange(3, 5);
+            updater.InvokesCount.Should().BeInRange(3, 4);
         }
 
         [Fact]
