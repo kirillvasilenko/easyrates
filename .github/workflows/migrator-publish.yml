@@ -1,0 +1,49 @@
+name: migrator-publish
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "src/Model/EasyRates.Migrator.Pg/**"
+      - ".github/workflows/migrator-publish.yml"
+
+env:
+  SVC_FOLDER: src/Model/EasyRates.Migrator.Pg
+  SVC_NAME: migrator
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get repository tags
+      run: |
+        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        git fetch --prune --unshallow
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.102
+    - name: Publish local
+      run: |
+        dotnet build --configuration Release $SVC_FOLDER
+        dotnet publish --no-build --configuration Release $SVC_FOLDER
+    - name: Extract service version
+      run: |
+        SVC_VERSION=$(git describe --match "$SVC_NAME/*" --abbrev=0)
+        SVC_VERSION=$(echo $SVC_VERSION | cut -d'/' -f 2)
+        SVC_VERSION="$SVC_VERSION.$GITHUB_RUN_NUMBER"
+        echo $SVC_VERSION
+        echo "::set-env name=SVC_VERSION::$SVC_VERSION"
+    - name: Build docker image
+      run: docker build  -t "easyrates-${SVC_NAME}" -f "${SVC_NAME}/Dockerfile" "${SVC_NAME}"
+    - name: Login in docker.pkg.github.com
+      run: docker login -u ${GITHUB_ACTOR} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
+    - name: Tag docker images
+      run: |
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
+        docker tag "easyrates-${SVC_NAME}" docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
+    - name: Publish to docker.pkg.github.com
+      run: |
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:latest
+        docker push docker.pkg.github.com/${GITHUB_REPOSITORY,,}/easyrates-${SVC_NAME}:$SVC_VERSION
