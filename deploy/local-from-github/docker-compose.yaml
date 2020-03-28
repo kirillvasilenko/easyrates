@@ -1,0 +1,62 @@
+version: "3"
+services:
+
+  reader:
+    image: docker.pkg.github.com/kirillamurskiy/easyrates/easyrates-reader:latest
+    container_name: easyrates-reader
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=${EasyRatesServer};port=${EasyRatesPort};database=${EasyRatesDb};user id=${EasyRatesUser};password=${EasyRatesUserPassword};
+    restart: unless-stopped
+    ports:
+      - 5011:80
+    healthcheck:
+      test: curl --fail http://127.0.0.1/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - db_migrator
+    networks:
+      - easyrates
+
+  writer:
+    image: docker.pkg.github.com/kirillamurskiy/easyrates/easyrates-writer:latest
+    container_name: easyrates-writer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=server=${EasyRatesServer};port=${EasyRatesPort};database=${EasyRatesDb};user id=${EasyRatesUser};password=${EasyRatesUserPassword};
+    restart: unless-stopped
+    ports:
+      - 5012:80
+    healthcheck:
+      test: curl --fail http://127.0.0.1/health || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - db_migrator
+    networks:
+      - easyrates
+
+  db_migrator:
+    image: docker.pkg.github.com/kirillamurskiy/easyrates/easyrates-migrator:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - EasyRates__Server=${EasyRatesServer}
+      - EasyRates__Port=${EasyRatesPort}
+      - EasyRates__Creator=${EasyRatesCreator}
+      - EasyRates__CreatorPassword=${EasyRatesCreatorPassword}
+      - EasyRates__CreatorDb=${EasyRatesCreatorDb}
+      - EasyRates__Migrator=${EasyRatesMigrator}
+      - EasyRates__MigratorPassword=${EasyRatesMigratorPassword}
+      - EasyRates__MigratorDb=${EasyRatesDb}
+      - EasyRates__CreateDb=true
+      - EasyRates__ShowPII=true
+    networks:
+      - easyrates
+
+  
+networks:
+  easyrates:
+    driver: bridge
