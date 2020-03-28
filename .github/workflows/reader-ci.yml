@@ -2,15 +2,11 @@ name: reader-ci
 
 on:
   pull_request:
-    paths-ignore: 
-      - "scr/Reader/EasyRates.Reader.Client/**"
     paths:
       - "src/Model/**"
       - "src/Reader/**"
       - ".github/workflows/reader-build.yml"
   push:
-    paths-ignore: 
-      - "scr/Reader/EasyRates.Reader.Client/**"
     paths:
       - "src/Model/**"
       - "src/Reader/**"
