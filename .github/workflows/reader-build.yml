@@ -32,8 +32,9 @@ jobs:
     - name: Build
       run: |
         dotnet build --configuration Release ${{ env.SVC_FOLDER }}
+        dotnet build --configuration Release ${{ env.SVC_TESTS_FOLDER }}
         dotnet build --configuration Release ${{ env.MODEL_TESTS_FOLDER }}
     - name: Tests
       run: |
-        dotnet test --configuration Release --no-build ${{ env.SVC_FOLDER }}
+        dotnet test --configuration Release --no-build ${{ env.SVC_TESTS_FOLDER }}
         dotnet test --configuration Release --no-build ${{ env.MODEL_TESTS_FOLDER }}
