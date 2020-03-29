@@ -31,9 +31,9 @@ jobs:
         dotnet-version: 3.1.102
     - name: Build
       run: |
-        dotnet build --configuration Release $SVC_FOLDER
-        dotnet build --configuration Release $MODEL_TESTS_FOLDER
+        dotnet build --configuration Release ${{ env.SVC_FOLDER }}
+        dotnet build --configuration Release ${{ env.MODEL_TESTS_FOLDER }}
     - name: Tests
       run: |
-        dotnet test --configuration Release --no-build $SVC_FOLDER
-        dotnet test --configuration Release --no-build $MODEL_TESTS_FOLDER
+        dotnet test --configuration Release --no-build ${{ env.SVC_FOLDER }}
+        dotnet test --configuration Release --no-build ${{ env.MODEL_TESTS_FOLDER }}
