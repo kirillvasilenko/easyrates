@@ -5,7 +5,8 @@ env:
   PCKG_NAME: reader-client-ts
 
 on:
-  branches: [non-existent-branch]
+  push:
+    branches: [non-existent-branch]
 #on:
 #  push:
 #    branches: master

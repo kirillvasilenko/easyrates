@@ -2,7 +2,8 @@ name: reader-ci
 
 # just for example
 on:
-  branches: [non-existent-branch]
+  push:
+    branches: [non-existent-branch]
 #on:
 #  pull_request:
 #    paths:

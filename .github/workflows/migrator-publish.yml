@@ -7,7 +7,8 @@ name: migrator-publish
 #      - "src/Model/EasyRates.Migrator.Pg/**"
 #      - ".github/workflows/migrator-publish.yml"
 on:
-  branches: [non-existent-branch]
+  push:
+    branches: [non-existent-branch]
 
 env:
   SVC_FOLDER: src/Model/EasyRates.Migrator.Pg
