@@ -4,11 +4,11 @@ env:
   CLIENT_FOLDER: scr/Reader/EasyRates.Reader.Client/ClientTs
   PCKG_NAME: reader-client-ts
 
-on:
-  push:
-    branches: master
-    paths:
-      - "scr/Reader/EasyRates.Reader.Client/**"
+#on:
+#  push:
+#    branches: master
+#    paths:
+#      - "scr/Reader/EasyRates.Reader.Client/**"
 
 jobs:
   build:

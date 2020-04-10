@@ -1,11 +1,11 @@
 name: migrator-publish
 
-on:
-  push:
-    branches: [master]
-    paths:
-      - "src/Model/EasyRates.Migrator.Pg/**"
-      - ".github/workflows/migrator-publish.yml"
+#on:
+#  push:
+#    branches: [master]
+#    paths:
+#      - "src/Model/EasyRates.Migrator.Pg/**"
+#      - ".github/workflows/migrator-publish.yml"
 
 env:
   SVC_FOLDER: src/Model/EasyRates.Migrator.Pg

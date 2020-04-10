@@ -1,16 +1,17 @@
 name: writer-ci
 
-on:
-  pull_request:
-    paths:
-      - "src/Model/**"
-      - "src/Writer/**"
-      - ".github/workflows/writer-build.yml"
-  push:
-    paths:
-      - "src/Model/**"
-      - "src/Writer/**"
-      - ".github/workflows/writer-ci.yml"
+# todo delete
+#on:
+#  pull_request:
+#    paths:
+#      - "src/Model/**"
+#      - "src/Writer/**"
+#      - ".github/workflows/writer-build.yml"
+#  push:
+#    paths:
+#      - "src/Model/**"
+#      - "src/Writer/**"
+#      - ".github/workflows/writer-ci.yml"
 
 env:
   SVC_FOLDER: src/Writer/EasyRates.WriterApp.AspNet
