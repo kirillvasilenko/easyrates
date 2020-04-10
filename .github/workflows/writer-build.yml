@@ -11,6 +11,8 @@ on:
       - "src/Model/**"
       - "src/Writer/**"
       - ".github/workflows/writer-build.yml"
+    tags:
+      - 'writer/*'
 
 env:
   SVC_FOLDER: src/Writer/EasyRates.WriterApp.AspNet
