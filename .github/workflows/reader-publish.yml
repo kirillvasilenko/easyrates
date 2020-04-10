@@ -1,5 +1,7 @@
 name: reader-publish
 
+on:
+  branches: [non-existent-branch]
 #on:
 #  push:
 #    branches: [master]

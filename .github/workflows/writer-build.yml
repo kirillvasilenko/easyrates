@@ -14,7 +14,7 @@ on:
 
 env:
   SVC_FOLDER: src/Writer/EasyRates.WriterApp.AspNet
-  SVC_TESTS_FOLDER: src/Reader/EasyRates.Writer.Tests
+  SVC_TESTS_FOLDER: src/Writer/EasyRates.Writer.Tests
   MODEL_TESTS_FOLDER: src/Model/EasyRates.Model.Tests
 
 jobs:

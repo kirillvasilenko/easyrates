@@ -4,6 +4,8 @@ env:
   CLIENT_FOLDER: scr/Reader/EasyRates.Reader.Client/ClientTs
   PCKG_NAME: reader-client-ts
 
+on:
+  branches: [non-existent-branch]
 #on:
 #  push:
 #    branches: master

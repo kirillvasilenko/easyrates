@@ -1,6 +1,8 @@
 name: reader-ci
 
-# todo delete
+# just for example
+on:
+  branches: [non-existent-branch]
 #on:
 #  pull_request:
 #    paths:
