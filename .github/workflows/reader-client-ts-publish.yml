@@ -1,15 +1,17 @@
 name: reader-client-ts-publish
 
 env:
-  CLIENT_FOLDER: scr/Reader/EasyRates.Reader.Client
-  CLIENT_NAME: socialnetwork.client
+  CLIENT_FOLDER: scr/Reader/EasyRates.Reader.Client/ClientTs
   PCKG_NAME: reader-client-ts
 
 on:
   push:
-    branches: master
-    paths:
-      - "scr/Reader/EasyRates.Reader.Client/**"
+    branches: [non-existent-branch]
+#on:
+#  push:
+#    branches: master
+#    paths:
+#      - "scr/Reader/EasyRates.Reader.Client/**"
 
 jobs:
   build:

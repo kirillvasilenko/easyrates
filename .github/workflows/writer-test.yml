@@ -1,0 +1,44 @@
+name: writer-build
+
+on:
+  pull_request:
+    paths:
+      - "src/Model/**"
+      - "src/Writer/**"
+      - ".github/workflows/writer-build.yml"
+  push:
+    paths:
+      - "src/Model/**"
+      - "src/Writer/**"
+      - ".github/workflows/writer-build.yml"
+    branches:
+      - "**"
+    tags-ignore:
+      - "**"
+
+env:
+  SVC_FOLDER: src/Writer/EasyRates.WriterApp.AspNet
+  SVC_TESTS_FOLDER: src/Writer/EasyRates.Writer.Tests
+  MODEL_TESTS_FOLDER: src/Model/EasyRates.Model.Tests
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.102
+      - name: Build
+        run: |
+          dotnet build --configuration Release ${{ env.SVC_FOLDER }}
+          dotnet build --configuration Release ${{ env.SVC_TESTS_FOLDER }}
+          dotnet build --configuration Release ${{ env.MODEL_TESTS_FOLDER }}
+      - name: Tests
+        run: |
+          dotnet test --configuration Release --no-build ${{ env.SVC_TESTS_FOLDER }}
+          dotnet test --configuration Release --no-build ${{ env.MODEL_TESTS_FOLDER }}
