@@ -2,8 +2,6 @@ name: reader-publish
 
 on:
   push:
-    branches:
-      - "master"
     tags:
       - "reader/*"
     
