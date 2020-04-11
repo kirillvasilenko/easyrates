@@ -13,8 +13,8 @@ on:
       - ".github/workflows/reader-build.yml"
     branches:
       - "master"
-    tags:
-      - 'reader/*'
+    tags-ignore:
+      - '*'
     #tags:
     #  - "!**"
 
