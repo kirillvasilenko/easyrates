@@ -11,8 +11,8 @@ on:
       - "src/Model/**"
       - "src/Reader/**"
       - ".github/workflows/reader-build.yml"
-    tags-ignore:
-      - "*"
+    tags:
+      - 'reader/*'
     #tags:
     #  - "!**"
 
