@@ -3,7 +3,9 @@ name: reader-publish
 on:
   push:
     tags:
-    - 'reader/*'
+      - "reader/*"
+    branches:
+      - "master"
 
 env:
   SVC_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
