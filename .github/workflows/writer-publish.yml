@@ -1,4 +1,4 @@
-name: reader-publish
+name: writer-publish
 
 on:
   push:

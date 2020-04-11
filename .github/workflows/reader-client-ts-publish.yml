@@ -6,12 +6,8 @@ env:
 
 on:
   push:
-    branches: [non-existent-branch]
-#on:
-#  push:
-#    branches: master
-#    paths:
-#      - "scr/Reader/EasyRates.Reader.Client/**"
+    tags:
+      - "reader-client-ts/*"
 
 jobs:
   build:
