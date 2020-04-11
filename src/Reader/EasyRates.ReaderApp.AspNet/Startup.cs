@@ -138,6 +138,8 @@ namespace EasyRates.ReaderApp.AspNet
         
         private void ConfigureAuthentication(IServiceCollection services)
         {
+            // change code
+            
             if (Config.GetSection("Auth").GetValue("UseTestAuth", false))
             {
                 services.AddAuthentication(options =>
