@@ -11,8 +11,8 @@ on:
       - "src/Model/**"
       - "src/Reader/**"
       - ".github/workflows/reader-build.yml"
-    tags:
-      - "!**"
+    #tags:
+    #  - "!**"
 
 env:
   SVC_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
