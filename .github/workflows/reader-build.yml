@@ -11,6 +11,10 @@ on:
       - "src/Model/**"
       - "src/Reader/**"
       - ".github/workflows/reader-build.yml"
+    branches:
+      - "master"
+    tags:
+      - 'reader/*'
     #tags:
     #  - "!**"
 
