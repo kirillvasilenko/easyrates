@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - "reader/*"
-    branches:
-      - "master"
 
 env:
   SVC_FOLDER: src/Reader/EasyRates.ReaderApp.AspNet
