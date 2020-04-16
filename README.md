@@ -1,6 +1,9 @@
 
 # EasyRates
 
+![reader-build](https://github.com/KirillAmurskiy/easyrates/workflows/reader-build/badge.svg?branch=master)
+![writer-build](https://github.com/KirillAmurskiy/easyrates/workflows/writer-build/badge.svg?branch=master)
+
 ## Содержание <!-- omit in toc -->
 
 - [Задание](#%d0%97%d0%b0%d0%b4%d0%b0%d0%bd%d0%b8%d0%b5)
