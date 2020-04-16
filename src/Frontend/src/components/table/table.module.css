@@ -1,0 +1,11 @@
+.table{
+    padding: 5px;
+}
+
+.tr:nth-child(2n){
+    background-color: gray;
+}
+
+.td{
+    padding: 5px;
+}

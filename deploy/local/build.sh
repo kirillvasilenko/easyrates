@@ -19,11 +19,11 @@ buildService () {
   docker tag "$FULL_SVC_NAME" "$FULL_SVC_NAME:latest"
 }
 
-dotnet restore "../../"
+dotnet restore "../../src"
 
-buildService "reader" "../../Reader/EasyRates.ReaderApp.AspNet"
-buildService "writer" "../../Writer/EasyRates.WriterApp.AspNet"
-buildService "migrator" "../../Model/EasyRates.Migrator.Pg"
+buildService "reader" "../../src/Reader/EasyRates.ReaderApp.AspNet"
+buildService "writer" "../../src/Writer/EasyRates.WriterApp.AspNet"
+buildService "migrator" "../../src/Model/EasyRates.Migrator.Pg"
 
 
 

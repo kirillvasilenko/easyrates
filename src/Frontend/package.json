@@ -1,0 +1,25 @@
+{
+  "name": "easyrates-frontend",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Kirill Amurksiy",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^9.3.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "@kirillamurskiy/easyrates-reader-client": "0.2.3",
+    "isomorphic-unfetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3",
+    "@types/node": "^12.12.6",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6"
+  },
+  "scripts": {
+    "start": "next",
+    "build": "next build",
+    "prod-start": "next start"
+  }
+}

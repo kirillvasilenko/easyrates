@@ -1,4 +1,5 @@
 @startuml
+
 (*)  --> "(from, to)"
 If "(from, to)\ncontains in cache" then
 -l-> [Yes] "rate = cache.Get(from, to)"
@@ -9,4 +10,5 @@ else
 --> "return rate"
 Endif
 -->(*)
+
 @enduml

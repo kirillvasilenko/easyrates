@@ -1,0 +1,19 @@
+@startuml
+
+participant "CI/CD" as ci
+participant DbMigrator as migrator
+participant Reader as reader
+database Database
+
+ci -> migrator **: create
+    ci -> migrator ++: run
+        migrator -> Database: update schema
+    return success
+ci -> migrator !!: kill
+
+ci -> reader **: create
+    ci -> reader ++: run
+        reader -> Database: using
+...
+
+@enduml

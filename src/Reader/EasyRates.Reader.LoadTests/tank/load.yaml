@@ -1,0 +1,18 @@
+overload:
+  enabled: true
+  package: yandextank.plugins.DataUploader
+  token_file: "yandex-tank-token.txt"
+phantom:
+  address: ec2-13-53-123-165.eu-north-1.compute.amazonaws.com:5011
+  ammofile: ammo.txt
+  connection_test: false
+  ammo_type: phantom
+  ssl: false
+  instances: 10000
+  load_profile:
+    load_type: rps
+    schedule: step(100,700,100,10) step(710,850,10,30)
+telegraf:
+  enabled: true
+  package: yandextank.plugins.Telegraf
+  config: monitoring.xml

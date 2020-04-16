@@ -1,0 +1,16 @@
+.input{
+    padding: 10px;
+}
+
+.hasError{
+    border-color: red;
+}
+
+.error{
+    color: red;
+}
+
+.inputWrapper{
+    display: flex;
+    flex-direction: column;
+}

@@ -1,7 +1,7 @@
 name: reader-client-ts-publish
 
 env:
-  CLIENT_FOLDER: scr/Reader/EasyRates.Reader.Client/ClientTs
+  CLIENT_FOLDER: src/Reader/EasyRates.Reader.Client/ClientTs
   PCKG_NAME: reader-client-ts
 
 on:
@@ -32,9 +32,8 @@ jobs:
       run: |
         PCKG_VERSION=$(git describe --match "$PCKG_NAME/*" --abbrev=0)
         PCKG_VERSION=$(echo $PCKG_VERSION | cut -d'/' -f 2)
-        PCKG_VERSION="$PCKG_VERSION.$GITHUB_RUN_NUMBER"
         echo $PCKG_VERSION
-        yarn version --new-version $PCKG_VERSION
+        yarn version --cwd "${CLIENT_FOLDER}" --new-version $PCKG_VERSION --no-git-tag-version
         
     - name: Install dependencies
       run: yarn install --cwd "${CLIENT_FOLDER}" --frozen-lockfile

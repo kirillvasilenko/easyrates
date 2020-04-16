@@ -1,0 +1,29 @@
+@startuml
+
+cloud AWS{
+    
+    node Reader <<t3.micro>>{
+        component Reader as reader
+    }
+    
+    node Writer <<t3.micro>>{
+        component Writer as writer
+    }
+    
+    node Database <<t3.micro>>{
+        component Database as db
+    }
+    
+    node Yandex.Tank <<t3.large>>{
+        component "Yandex.Tank" as tank
+    }
+
+}
+
+writer --> db: update rates
+reader --> db: read rates
+tank --> reader: attack by GET requests
+
+skinparam databaseBackgroundColor Aqua
+
+@enduml

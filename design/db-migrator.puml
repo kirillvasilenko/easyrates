@@ -1,0 +1,8 @@
+@startuml
+
+component DbMigrator
+database Database
+
+DbMigrator --> Database: update schema
+
+@enduml

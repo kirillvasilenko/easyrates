@@ -1,0 +1,10 @@
+@startuml
+
+[Reader] 
+[Writer]
+database Database
+
+Reader --> Database: read
+Writer --> Database: write
+
+@enduml

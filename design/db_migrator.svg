@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="364px" preserveAspectRatio="none" style="width:306px;height:364px;" version="1.1" viewBox="0 0 306 364" width="306px" zoomAndPan="magnify"><defs><filter height="300%" id="f1cqm89r044430" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="4.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="8.0" dy="8.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[0f02b83de205ef8ca115bbf07ec2c400]
+entity DbMigrator--><rect fill="#FEFECE" filter="url(#f1cqm89r044430)" height="75.2188" style="stroke: #A80036; stroke-width: 3.0;" width="180" x="12" y="16"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="2" y="26"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="2" y="71.2188"/><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="140" x="32" y="65.0664">DbMigrator</text><!--MD5=[fa1e3283224feb76407c84b7e90ed808]
+entity Database--><path d="M21,268 C21,248 102,248 102,248 C102,248 183,248 183,268 L183,321.2188 C183,341.2188 102,341.2188 102,341.2188 C102,341.2188 21,341.2188 21,321.2188 L21,268 " fill="#FEFECE" filter="url(#f1cqm89r044430)" style="stroke: #000000; stroke-width: 3.0;"/><path d="M21,268 C21,288 102,288 102,288 C102,288 183,288 183,268 " fill="none" style="stroke: #000000; stroke-width: 3.0;"/><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="122" x="41" y="325.0664">Database</text><!--MD5=[0ee39739e335b97ff940aeb30e3c2362]
+link DbMigrator to Database--><path d="M102,92.512 C102,131.218 102,192.8168 102,237.5288 " fill="none" id="DbMigrator-&gt;Database" style="stroke: #A80036; stroke-width: 2.0;"/><polygon fill="#A80036" points="102,247.9364,110,229.9364,102,237.9364,94,229.9364,102,247.9364" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="26" lengthAdjust="spacingAndGlyphs" textLength="178" x="104" y="180.9902">update schema</text><!--MD5=[fa2b784beadca62d7d314ab0cca993b6]
+@startuml
+
+component DbMigrator
+database Database
+
+DbMigrator - -> Database: update schema
+
+@enduml
+
+PlantUML version 1.2020.03beta6(Unknown compile time)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.5+10-b520.38
+Operating System: Windows 10
+Default Encoding: Cp1251
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="542px" preserveAspectRatio="none" style="width:1594px;height:542px;" version="1.1" viewBox="0 0 1594 542" width="1594px" zoomAndPan="magnify"><defs><filter height="300%" id="f1s9hcytvusm3u" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="4.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="8.0" dy="8.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5691f1d0bb77175339a7ff8ec737b918]
+cluster distributed Readers cluster--><polygon fill="#FFFFFF" filter="url(#f1s9hcytvusm3u)" points="330,48,728,48,742,95.2188,1550,95.2188,1550,262,330,262,330,48" style="stroke: #000000; stroke-width: 3.0;"/><line style="stroke: #000000; stroke-width: 3.0;" x1="330" x2="742" y1="95.2188" y2="95.2188"/><text fill="#000000" font-family="sans-serif" font-size="28" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="386" x="338" y="81.0664">distributed Readers cluster</text><!--MD5=[507bd761e763ccc985fd0bbb10b07b69]
+entity Reader1--><rect fill="#FEFECE" filter="url(#f1s9hcytvusm3u)" height="110.4375" style="stroke: #A80036; stroke-width: 3.0;" width="338" x="363" y="120"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="353" y="130"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="353" y="210.4375"/><text fill="#000000" font-family="sans-serif" font-size="28" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="298" x="383" y="169.0664">«stateless web service»</text><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="110" x="477" y="204.2852">Reader1</text><!--MD5=[f6b01a98b37de43108c5d7ee2e1a36c6]
+entity Reader2--><rect fill="#FEFECE" filter="url(#f1s9hcytvusm3u)" height="110.4375" style="stroke: #A80036; stroke-width: 3.0;" width="338" x="771" y="120"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="761" y="130"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="761" y="210.4375"/><text fill="#000000" font-family="sans-serif" font-size="28" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="298" x="791" y="169.0664">«stateless web service»</text><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="110" x="885" y="204.2852">Reader2</text><!--MD5=[215cda7d40a465e89720a66b566ee655]
+entity ReaderN--><rect fill="#FEFECE" filter="url(#f1s9hcytvusm3u)" height="110.4375" style="stroke: #A80036; stroke-width: 3.0;" width="338" x="1179" y="120"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="1169" y="130"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="1169" y="210.4375"/><text fill="#000000" font-family="sans-serif" font-size="28" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="298" x="1199" y="169.0664">«stateless web service»</text><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="112" x="1292" y="204.2852">ReaderN</text><!--MD5=[7468467f3b6b392f1d176d828c753b77]
+entity db--><path d="M633,410 C633,390 734,390 734,390 C734,390 835,390 835,410 L835,498.4375 C835,518.4375 734,518.4375 734,518.4375 C734,518.4375 633,518.4375 633,498.4375 L633,410 " fill="#FEFECE" filter="url(#f1s9hcytvusm3u)" style="stroke: #000000; stroke-width: 3.0;"/><path d="M633,410 C633,430 734,430 734,430 C734,430 835,430 835,410 " fill="none" style="stroke: #000000; stroke-width: 3.0;"/><text fill="#000000" font-family="sans-serif" font-size="28" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="162" x="653" y="467.0664">«HA cluster»</text><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="122" x="673" y="502.2852">Database</text><!--MD5=[8d81e54158b732e3892f5ec8abe1acfa]
+entity Writer--><rect fill="#FEFECE" filter="url(#f1s9hcytvusm3u)" height="110.4375" style="stroke: #A80036; stroke-width: 3.0;" width="280" x="12" y="120"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="2" y="130"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 3.0;" width="20" x="2" y="210.4375"/><text fill="#000000" font-family="sans-serif" font-size="28" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="240" x="32" y="169.0664">«statefull deamon»</text><text fill="#000000" font-family="sans-serif" font-size="28" lengthAdjust="spacingAndGlyphs" textLength="76" x="114" y="204.2852">Writer</text><!--MD5=[b73a5d7be1c2988d2924f4c04d5a2818]
+link Reader1 to db--><path d="M570.948,230.022 C602.462,272.928 647.138,333.7476 681.758,380.8786 " fill="none" id="Reader1-&gt;db" style="stroke: #A80036; stroke-width: 2.0;"/><polygon fill="#A80036" points="688.1,389.5122,683.889,370.2699,682.1789,381.4536,670.9952,379.7436,688.1,389.5122" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="26" lengthAdjust="spacingAndGlyphs" textLength="50" x="640" y="322.9902">read</text><!--MD5=[42fc44b104fc1d32da01d7e648016c2a]
+link Reader2 to db--><path d="M900.282,230.022 C868.008,273.106 822.204,334.2526 786.838,381.4646 " fill="none" id="Reader2-&gt;db" style="stroke: #A80036; stroke-width: 2.0;"/><polygon fill="#A80036" points="780.808,389.5122,798.0028,379.903,786.8037,381.509,785.1977,370.3098,780.808,389.5122" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="26" lengthAdjust="spacingAndGlyphs" textLength="50" x="850" y="322.9902">read</text><!--MD5=[9bff97488e301bf09ee19ba9616df57a]
+link ReaderN to db--><path d="M1243.734,230.08 C1211.904,245.89 1176.682,262.99 1144,278 C1043.862,323.9906 928.16,372.6976 845.252,406.845 " fill="none" id="ReaderN-&gt;db" style="stroke: #A80036; stroke-width: 2.0;"/><polygon fill="#A80036" points="835.816,410.7272,855.5061,411.2753,845.0636,406.9217,849.4172,396.4792,835.816,410.7272" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="26" lengthAdjust="spacingAndGlyphs" textLength="50" x="1102" y="322.9902">read</text><!--MD5=[a264530a04a0355a65a532d32c182dac]
+link Writer to db--><path d="M241.52,230.326 C269.508,246.31 300.73,263.448 330,278 C427.252,326.353 541.134,374.6828 623.154,408.0922 " fill="none" id="Writer-&gt;db" style="stroke: #A80036; stroke-width: 2.0;"/><polygon fill="#A80036" points="632.996,412.0916,619.3296,397.906,623.7311,408.3285,613.3086,412.7299,632.996,412.0916" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="26" lengthAdjust="spacingAndGlyphs" textLength="54" x="442" y="322.9902">write</text><!--MD5=[da13c54c3f39630334fbef02e8ce0407]
+@startuml
+
+package "distributed Readers cluster"{
+    [Reader1] <<stateless web service>>
+    [Reader2] <<stateless web service>>
+    [ReaderN] <<stateless web service>>
+}
+
+database Database <<HA cluster>> as db
+
+[Writer] <<statefull deamon>>
+
+Reader1 - -> db: read
+Reader2 - -> db: read
+ReaderN - -> db: read
+Writer - -> db: write
+
+@enduml
+
+PlantUML version 1.2020.03beta6(Unknown compile time)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.5+10-b520.38
+Operating System: Windows 10
+Default Encoding: Cp1251
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,18 @@
+@startuml
+
+package "distributed Readers cluster"{
+    [Reader1] <<stateless web service>>
+    [Reader2] <<stateless web service>>
+    [ReaderN] <<stateless web service>>
+}
+
+database Database <<HA cluster>> as db
+
+[Writer] <<statefull deamon>>
+
+Reader1 --> db: read
+Reader2 --> db: read
+ReaderN --> db: read
+Writer --> db: write
+
+@enduml
