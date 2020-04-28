@@ -6,6 +6,10 @@ password 'easyrates_migrator';
 create role easyrates_app login
 password 'easyrates_app';
 
+-- it needs for altering default privileges later
+-- else we get the error '[42501] ERROR: must be member of role "easyrates_migrator"'
+GRANT easyrates_migrator TO postgres;
+
 -- !!! Need connect to service database !!!
 
 revoke all on database easyrates from public;
