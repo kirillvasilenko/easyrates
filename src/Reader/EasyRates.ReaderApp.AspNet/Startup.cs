@@ -88,16 +88,7 @@ namespace EasyRates.ReaderApp.AspNet
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-
-            app.Use(async (context, next) =>
-            {
-                // Do work that doesn't write to the Response.
-                context.Response.Headers.Add(
-                    "Cache-Control",
-                    new[] {"max-age=86400,public"});
-                await next.Invoke();
-                // Do logging or other work that doesn't write to the Response.
-            });
+            
             app.UseRouting();
             
             app.UseCors(builder =>
