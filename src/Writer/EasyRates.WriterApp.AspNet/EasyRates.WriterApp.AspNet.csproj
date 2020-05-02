@@ -27,6 +27,7 @@
       <ProjectReference Include="..\EasyRates.RatesProvider.InMemory\EasyRates.RatesProvider.InMemory.csproj" />
       <ProjectReference Include="..\EasyRates.RatesProvider.OpenExchange\EasyRates.RatesProvider.OpenExchange.csproj" />
       <ProjectReference Include="..\EasyRates.Writer.Ef.Pg\EasyRates.Writer.Ef.Pg.csproj" />
+      <ProjectReference Include="..\EasyRates.Writer.Spanner\EasyRates.Writer.Spanner.csproj" />
       <ProjectReference Include="..\EasyRates.WriterApp\EasyRates.WriterApp.csproj" />
     </ItemGroup>
 

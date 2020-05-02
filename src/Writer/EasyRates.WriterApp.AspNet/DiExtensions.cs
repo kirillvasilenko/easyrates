@@ -1,6 +1,7 @@
 using EasyRates.RatesProvider.InMemory;
 using EasyRates.RatesProvider.OpenExchange;
 using EasyRates.Writer.Ef.Pg;
+using EasyRates.Writer.Spanner;
 using EasyRates.WriterApp.AspNet.HostedServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,10 +16,20 @@ namespace EasyRates.WriterApp.AspNet
             IConfiguration config)
         {
             services
-                .AddEasyRatesWriterEfPg(config.GetConnectionString("DefaultConnection"), ServiceLifetime.Singleton)
                 .AddEasyRatesWriterApp(config.GetSection("Timetable"))
                 .AddHostedService<WriterHostedService>()
                 .AddSingleton<ISystemClock, SystemClock>();
+            
+            if (config.GetValue<string>("DbType") == "Spanner")
+            {
+                services.AddEasyRatesWriterSpanner(config.GetConnectionString("Spanner"),
+                    ServiceLifetime.Singleton);
+            }
+            else
+            {
+                services.AddEasyRatesWriterEfPg(config.GetConnectionString("DefaultConnection"),
+                    ServiceLifetime.Singleton);
+            }
             
             var inMemoryProviderConfig = config.GetSection("ProviderInMemory");
             if (inMemoryProviderConfig.GetValue("Enabled", false))

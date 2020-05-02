@@ -8,6 +8,7 @@ using EasyRates.Model;
 using EasyRates.Model.Ef.Pg;
 using EasyRates.Reader.Ef.Pg;
 using EasyRates.Reader.Model;
+using EasyRates.Reader.Spanner;
 using Hellang.Middleware.ProblemDetails;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -46,7 +47,15 @@ namespace EasyRates.ReaderApp.AspNet
             ConfigureSwagger(services);
 
             services.AddEasyRatesReaderApp();
-            services.AddEasyRatesReaderEfPg(Config.GetConnectionString("DefaultConnection"));
+            if (Config.GetValue<string>("DbType") == "Spanner")
+            {
+                services.AddEasyRatesReaderEfSpanner(Config.GetConnectionString("Spanner"));
+            }
+            else
+            {
+                services.AddEasyRatesReaderEfPg(Config.GetConnectionString("DefaultConnection"));    
+            }
+            
             services.AddSingleton<ISystemClock, SystemClock>();
 
             services.AddHealthChecks()

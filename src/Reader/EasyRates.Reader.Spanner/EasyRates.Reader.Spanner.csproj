@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Model\EasyRates.Model.Spanner\EasyRates.Model.Spanner.csproj" />
+      <ProjectReference Include="..\EasyRates.Reader\EasyRates.Reader.csproj" />
+    </ItemGroup>
+
+</Project>
