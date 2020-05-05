@@ -26,7 +26,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=server=${EasyRatesServer};port=${EasyRatesPort};database=${EasyRatesDb};user id=${EasyRatesUser};password=${EasyRatesUserPassword};
-      - Timetable__UpdatePeriod=24:00:00
+      - Timetable__UpdatePeriod=12:00:00
     restart: unless-stopped
     ports:
       - 5012:80
